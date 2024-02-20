@@ -161,11 +161,13 @@ export const generateUploadLogoProps: UploadProps = (fileList, setFileList, hand
                 message.error('图片大小不能超过5MB！');
                 return Upload.LIST_IGNORE;
             }
+            console.log(file.size / 1024 / 1024)
             // 这里不需要设置文件列表，因为我们会在onChange中处理
             return false; // 阻止文件自动上传
         },
         onChange: ({ fileList: newFileList }) =>
         {
+            console.log("newFileList is: ", newFileList)
             setFileList(newFileList); // 更新文件列表状态
         },
         fileList,

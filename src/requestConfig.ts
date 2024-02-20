@@ -27,7 +27,7 @@ interface ResponseStructure {
 export const errorConfig: RequestConfig = {
   // 错误处理： umi@3 的错误处理方案。
   withCredentials: true, // 跨域请求时发送 cookies
-  timeout: 10000, // 请求超时时间
+  timeout: 60000, // 请求超时时间
   // 请求拦截器
   requestInterceptors: [
     (config: RequestOptions) => {

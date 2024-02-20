@@ -200,7 +200,7 @@ const MatchForm: React.FC = () =>
         const matchLogo = logoFileList[0]?.thumbUrl || null
         const finalValues: Record<string, any> = {
             ...values,
-            matchLogo: logoFileList[0]?.thumbUrl || null,
+            matchLogo: await getBase64(logoFileList[0].originFileObj),
             hasFileList: fileList.length > 0,
             matchTags: matchTags,
             matchAward: awardItemList,
@@ -210,7 +210,6 @@ const MatchForm: React.FC = () =>
             maxTeamSize: maxTeamSize,
             minTeamSize: minTeamSize,
         }
-
         setSubmitting(true); // 开始提交状态
         // 提交表单
         message.loading({ content: '提交中...', key: 'submitting' });
