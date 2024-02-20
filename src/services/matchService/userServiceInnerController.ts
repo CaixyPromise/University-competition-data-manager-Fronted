@@ -5,7 +5,7 @@ import { request } from '@umijs/max';
 /** getById GET /api/competition/inner/get/id */
 export async function getByIdUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getByIdUsingGETParams,
+  params: API.getByIdUsingGET1Params,
   options?: { [key: string]: any },
 ) {
   return request<API.User>('/api/competition/inner/get/id', {
@@ -20,7 +20,7 @@ export async function getByIdUsingGET(
 /** listByIds GET /api/competition/inner/get/ids */
 export async function listByIdsUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.listByIdsUsingGETParams,
+  params: API.listByIdsUsingGET1Params,
   options?: { [key: string]: any },
 ) {
   return request<API.User[]>('/api/competition/inner/get/ids', {

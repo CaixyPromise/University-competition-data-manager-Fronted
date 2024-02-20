@@ -6,9 +6,8 @@ import {PageContainer, ProTable} from '@ant-design/pro-components';
 import '@umijs/max';
 import {Button} from 'antd';
 import React, {useRef, useState} from 'react';
-import {CompetitionColumns, CompetitionModalColumn} from "@/pages/Admin/CompetitionList/columns/CompetitionColumns";
+import {CompetitionColumns} from "@/pages/Admin/CompetitionList/columns/CompetitionColumns";
 import {listMatchInfoByPageUsingPOST} from "@/services/matchService/competitionInfoController";
-import MatchInfoForm from "@/pages/Admin/CompetitionList/components/MatchInfoForm";
 import {useModel} from "@@/exports";
 import {history} from '@umijs/max';
 
@@ -81,12 +80,7 @@ const CompetitionListPage: React.FC = () =>
                 }}
                 columns={CompetitionColumns}
             />
-            <MatchInfoForm defaultValues={{}}
-                           visible={createModalVisible}
-                           onFinish={onFinish}
-                           onOpenChange={setCreateModalVisible}
-                           collegesAndMajors={collegesAndMajors}
-            />
+
             {/*<CreateModal*/}
             {/*    visible={createModalVisible}*/}
             {/*    columns={CompetitionModalColumn}*/}

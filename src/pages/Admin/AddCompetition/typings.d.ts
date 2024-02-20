@@ -40,11 +40,11 @@ declare namespace AddMatchTypes
         children?: TableRecordType[];
     };
 
-    type RewardItemType = {
+    type AwardItemType = {
         id: React.Key;
-        rewardName: string;
-        rewardContent: string;
-        rewardDesc: string;
+        awardName: string;
+        awardContent: string;
+        awardDesc: string;
     }
 }
 

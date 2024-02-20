@@ -127,42 +127,42 @@ declare namespace API {
   };
 
   type DepartmentWithMajorsVO = {
-    departmentId?: string;
+    departmentId?: number;
     departmentName?: string;
     majors?: MajorInnerInfo[];
   };
 
-  type getByIdUsingGETParams = {
+  type getByIdUsingGET1Params = {
     /** userId */
     userId: number;
   };
 
-  type getDepartmentInfoVOByIdUsingGETParams = {
+  type getDepartmentInfoVOByIdUsingGET1Params = {
     /** id */
     id: number;
   };
 
-  type getMajorInfoVOByIdUsingGETParams = {
+  type getMajorInfoVOByIdUsingGET1Params = {
     /** id */
     id?: number;
   };
 
-  type getMajorUnderDepartmentUsingGETParams = {
+  type getMajorUnderDepartmentUsingGET1Params = {
     /** departmentId */
     departmentId: number;
   };
 
-  type getUserByIdUsingGETParams = {
+  type getUserByIdUsingGET1Params = {
     /** id */
     id?: number;
   };
 
-  type getUserVOByIdUsingGETParams = {
+  type getUserVOByIdUsingGET1Params = {
     /** id */
     id?: number;
   };
 
-  type listByIdsUsingGETParams = {
+  type listByIdsUsingGET1Params = {
     /** idList */
     idList: number[];
   };

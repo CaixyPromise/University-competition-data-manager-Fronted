@@ -138,37 +138,37 @@ declare namespace API {
     majors?: MajorInnerInfo[];
   };
 
-  type getByIdUsingGETParams = {
+  type getByIdUsingGET1Params = {
     /** userId */
     userId: number;
   };
 
-  type getDepartmentInfoVOByIdUsingGETParams = {
+  type getDepartmentInfoVOByIdUsingGET1Params = {
     /** id */
     id: number;
   };
 
-  type getMajorInfoVOByIdUsingGETParams = {
+  type getMajorInfoVOByIdUsingGET1Params = {
     /** id */
     id?: number;
   };
 
-  type getMajorUnderDepartmentUsingGETParams = {
+  type getMajorUnderDepartmentUsingGET1Params = {
     /** departmentId */
     departmentId: number;
   };
 
-  type getUserByIdUsingGETParams = {
+  type getUserByIdUsingGET1Params = {
     /** id */
     id?: number;
   };
 
-  type getUserVOByIdUsingGETParams = {
+  type getUserVOByIdUsingGET1Params = {
     /** id */
     id?: number;
   };
 
-  type listByIdsUsingGETParams = {
+  type listByIdsUsingGET1Params = {
     /** idList */
     idList: number[];
   };
@@ -224,19 +224,21 @@ declare namespace API {
   };
 
   type MatchInfoAddRequest = {
-    endTime?: string;
-    matchAward?: Record<string, any>;
+    hasFileList?: boolean;
+    matchDate?: string[];
     matchDesc?: string;
     matchLevel?: string;
+    matchLogo?: string;
     matchName?: string;
-    matchPermissionRule?: MatchPermissionRule;
-    matchPic?: string;
+    matchPermissionRule?: MatchPermission[][];
+    matchReward?: MatchReward[];
     matchRule?: string;
     matchStatus?: number;
-    matchTags?: Record<string, any>;
+    matchTags?: string[];
     matchType?: string;
-    startTime?: string;
-    teamSize?: number;
+    maxTeamSize?: number;
+    minTeamSize?: number;
+    signupDate?: string[];
   };
 
   type MatchInfoQueryRequest = {
@@ -271,7 +273,7 @@ declare namespace API {
     matchDesc?: string;
     matchLevel?: string;
     matchName?: string;
-    matchPermissionRule?: MatchPermissionRule;
+    matchPermissionRule?: MatchPermission;
     matchPic?: string;
     matchRule?: string;
     matchStatus?: number;
@@ -281,8 +283,17 @@ declare namespace API {
     teamSize?: number;
   };
 
-  type MatchPermissionRule = {
-    permissions?: Record<string, any>;
+  type MatchPermission = {
+    children?: MatchPermission[];
+    label?: string;
+    value?: string;
+  };
+
+  type MatchReward = {
+    rewardContent?: string;
+    rewardCount?: number;
+    rewardDesc?: string;
+    rewardName?: string;
   };
 
   type ModelAndView = {

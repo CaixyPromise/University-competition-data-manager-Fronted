@@ -6,8 +6,8 @@ import {PlusOutlined} from "@ant-design/icons";
 const TagComponent = ({ tags, setTags }) =>
 {
     const { token } = theme.useToken();
-    const [ inputVisible, setInputVisible ] = useState(false);
-    const [ inputValue, setInputValue ] = useState('');
+    const [ inputVisible, setInputVisible ] = useState<boolean>(false);
+    const [ inputValue, setInputValue ] = useState<string>('');
     const inputRef = useRef<InputRef>(null);
 
     useEffect(() =>
@@ -108,7 +108,7 @@ const TagComponent = ({ tags, setTags }) =>
             />
         ) : (
             <Tag onClick={showInput} style={tagPlusStyle}>
-                <PlusOutlined/> New Tag
+                <PlusOutlined/> 新增标签
             </Tag>
         )}
     </>
