@@ -2,41 +2,41 @@
 /* eslint-disable */
 import { request } from '@umijs/max';
 
-/** errorHtml GET /api/competition/error */
-export async function errorHtmlUsingGET(options?: { [key: string]: any }) {
-  return request<API.ModelAndView>('/api/competition/error', {
+/** error GET /api/competition/error */
+export async function errorUsingGET(options?: { [key: string]: any }) {
+  return request<Record<string, any>>('/api/competition/error', {
     method: 'GET',
     ...(options || {}),
   });
 }
 
-/** errorHtml PUT /api/competition/error */
-export async function errorHtmlUsingPut1(options?: { [key: string]: any }) {
-  return request<API.ModelAndView>('/api/competition/error', {
+/** error PUT /api/competition/error */
+export async function errorUsingPut1(options?: { [key: string]: any }) {
+  return request<Record<string, any>>('/api/competition/error', {
     method: 'PUT',
     ...(options || {}),
   });
 }
 
-/** errorHtml POST /api/competition/error */
-export async function errorHtmlUsingPOST(options?: { [key: string]: any }) {
-  return request<API.ModelAndView>('/api/competition/error', {
+/** error POST /api/competition/error */
+export async function errorUsingPOST(options?: { [key: string]: any }) {
+  return request<Record<string, any>>('/api/competition/error', {
     method: 'POST',
     ...(options || {}),
   });
 }
 
-/** errorHtml DELETE /api/competition/error */
-export async function errorHtmlUsingDelete1(options?: { [key: string]: any }) {
-  return request<API.ModelAndView>('/api/competition/error', {
+/** error DELETE /api/competition/error */
+export async function errorUsingDelete1(options?: { [key: string]: any }) {
+  return request<Record<string, any>>('/api/competition/error', {
     method: 'DELETE',
     ...(options || {}),
   });
 }
 
-/** errorHtml PATCH /api/competition/error */
-export async function errorHtmlUsingPatch1(options?: { [key: string]: any }) {
-  return request<API.ModelAndView>('/api/competition/error', {
+/** error PATCH /api/competition/error */
+export async function errorUsingPatch1(options?: { [key: string]: any }) {
+  return request<Record<string, any>>('/api/competition/error', {
     method: 'PATCH',
     ...(options || {}),
   });

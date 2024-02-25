@@ -17,7 +17,7 @@ export async function addMatchInfoUsingPOST(
     formData.append('file', file);
   }
   const json = JSON.stringify(body.data);
-// 将 json 字符串转化为 Blob 对象
+  // 将 json 字符串转化为 Blob 对象
   const blob = new Blob([json], {
     type: 'application/json',
   });
@@ -31,7 +31,6 @@ export async function addMatchInfoUsingPOST(
     ...(options || {}),
   });
 }
-
 
 /** deleteMatchInfo POST /api/competition/Competition/delete */
 export async function deleteMatchInfoUsingPOST(

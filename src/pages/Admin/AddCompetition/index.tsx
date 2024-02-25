@@ -13,7 +13,7 @@ import {
     matchTypeOptions,
 } from '@/pages/Admin/AddCompetition/configs';
 import {AddMatchTypes} from '@/pages/Admin/AddCompetition/typings';
-import {InboxOutlined, PlusOutlined} from '@ant-design/icons';
+import {InboxOutlined, PlusOutlined, UserOutlined} from '@ant-design/icons';
 import {
     ActionType,
     EditableProTable,
@@ -37,6 +37,9 @@ import BraftEditor, {EditorState} from 'braft-editor';
 import 'braft-editor/dist/index.css';
 import ChoiceCollegeCascader from "@/pages/Admin/AddCompetition/components/ChioceCollegeCascader";
 import {RecordKey} from "@ant-design/pro-utils/lib/useEditableArray";
+import {addMatchInfoUsingPOST} from "@/services/matchService/competitionInfoController";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 const getBase64 = (file: RcFile) =>
     new Promise((resolve, reject) =>
@@ -86,7 +89,9 @@ const MatchForm: React.FC = () =>
     const [ previewVisible, setPreviewVisible ] = useState<boolean>(false);
     const [ previewImage, setPreviewImage ] = useState<string>('');
     const [ minTeamSize, setMinTeamSize ] = useState<number>(1);
-    const [ maxTeamSize, setMaxTeamSize ] = useState<number>(10);
+    const [ maxTeamSize, setMaxTeamSize ] = useState<number>(10)
+    const [ minTeamTeacherSize, setMinTeamTeacherSize ] = useState<number>(1);
+    const [ maxTeamTeacherSize, setMaxTeamTeacherSize ] = useState<number>(10);
     // 分别管理报名日期和比赛日期
     const [ signupDateRange, setSignupDateRange ] = useState<[ Dayjs, Dayjs ] | undefined>(undefined);
     const [ matchDateRange, setMatchDateRange ] = useState<[ Dayjs, Dayjs ] | undefined>(undefined);
@@ -107,7 +112,6 @@ const MatchForm: React.FC = () =>
     const [ groupPermissionOption, setGroupPermissionOption ] = useState<
         AddMatchTypes.option[][]
     >([]);
-    const [ currentRowIndex, setCurrentRowIndex ] = useState<number>(0);
     const [ permissionSelectValue, setPermissionSelectValue ] = useState<{
         [key: number]: AddMatchTypes.option[][]
     }>({});
@@ -273,6 +277,20 @@ const MatchForm: React.FC = () =>
     {
         setMaxTeamSize(value);
     };
+
+    const handleMinTeamTeacherSizeChange = (value) =>
+    {
+        setMinTeamTeacherSize(value);
+        if (value >= maxTeamSize)
+        {
+            setMaxTeamTeacherSize(value + 1);
+        }
+    };
+
+    const handleMaxTeamTeacherSizeChange = (value) =>
+    {
+        setMaxTeamTeacherSize(value);
+    };
     const handlePreview = async (file) =>
     {
         if (!file.url && !file.preview)
@@ -322,14 +340,15 @@ const MatchForm: React.FC = () =>
         {
             return data.map((item) =>
             {
+                // 尝试从映射中获取当前项的权限数据
                 const permissions = permissionMap[item.id];
-                if (permissions)
-                {
-                    return { ...item, permission: permissions };
+                // 如果找到权限数据，则更新当前项的权限
+                if (permissions) {
+                    item = { ...item, permission: permissions };
                 }
-                if (item.children)
-                {
-                    return { ...item, children: updatePermission(item.children, permissionMap) };
+                // 如果当前项有子项，递归更新子项的权限
+                if (item.children && item.children.length > 0) {
+                    item.children = updatePermission(item.children, permissionMap);
                 }
                 return item;
             });
@@ -344,39 +363,39 @@ const MatchForm: React.FC = () =>
             matchPermissionRule: selectPermissionColleges,
             signupDate: signupDateRange,
             matchDate: matchDateRange,
-            maxTeamSize: maxTeamSize,
-            minTeamSize: minTeamSize,
-            groupSetting: updatePermission(groupSettingDataSource, permissionSelectValue)
+            teacherSize: [minTeamTeacherSize, maxTeamTeacherSize],
+            teamSize: [minTeamSize, maxTeamSize],
+            groupData: updatePermission(groupSettingDataSource, permissionSelectValue)
         };
-        console.log(permissionSelectValue)
         console.log(finalValues)
-        // setSubmitting(true); // 开始提交状态
-        // // 提交表单
-        // message.loading({ content: '提交中...', key: 'submitting' });
-        // try
-        // {
-        //
-        //     const { data, code } = await addMatchInfoUsingPOST({
-        //         data: finalValues
-        //     }, logoFileList[0].originFileObj);
-        //     if (code === 0 && data)
-        //     {
-        //         message.success({ content: '添加成功', key: 'submitting' });
-        //     }
-        //     else
-        //     {
-        //         message.error({ content: '添加失败', key: 'submitting' });
-        //     }
-        // }
-        // catch (e)
-        // {
-        //     console.error('提交错误', error);
-        //     message.error({ content: '提交异常', key: 'submitting' });
-        // }
-        // finally
-        // {
-        //     setSubmitting(false); // 提交完成
-        // }
+        console.log("permissionSelectValue is: ", permissionSelectValue)
+        setSubmitting(true); // 开始提交状态
+
+        // 提交表单
+        message.loading({ content: '提交中...', key: 'submitting' });
+        try
+        {
+            const { data, code } = await addMatchInfoUsingPOST({
+                data: finalValues
+            }, logoFileList[0].originFileObj);
+            if (code === 0 && data)
+            {
+                message.success({ content: '添加成功', key: 'submitting' });
+            }
+            else
+            {
+                message.error({ content: '添加失败', key: 'submitting' });
+            }
+        }
+        catch (e)
+        {
+            console.error('提交错误', error);
+            message.error({ content: '提交异常', key: 'submitting' });
+        }
+        finally
+        {
+            setSubmitting(false); // 提交完成
+        }
     };
     return (
         <PageContainer>
@@ -615,9 +634,10 @@ const MatchForm: React.FC = () =>
                                 {
                                     setPermissionSelectValue(prevState => ({
                                         ...prevState,
-                                        [Number(rowKey)]: [],
+                                        [Number(rowKey)]: [[]],
                                     }))
                                 }
+                                console.log(permissionSelectValue)
                             },
                             onChange: setEditableRowKeys,
                         }}
@@ -635,24 +655,53 @@ const MatchForm: React.FC = () =>
                         <TagComponent tags={matchTags} setTags={setMatchTags}/>
                     </ProForm.Item>
                     <ProForm.Item label="团队人数范围" tooltip="设置比赛每个团队的人数范围">
-                        <ProForm.Group>
+                        <ProForm.Group >
                             <ProForm.Item name="minTeamSize" noStyle>
                                 <InputNumber
                                     min={1}
                                     max={maxTeamSize - 1}
                                     value={minTeamSize}
                                     onChange={handleMinTeamSizeChange}
-                                    addonBefore="最少"
+                                    addonBefore={<UserOutlined />}
+                                    prefix="最少"
                                     addonAfter="人"
                                 />
                             </ProForm.Item>
-                            <ProForm.Item name="maxTeamSize" noStyle>
+                            <ProForm.Item name="maxTeamSize" noStyle >
                                 <InputNumber
                                     min={minTeamSize + 1}
                                     max={10}
                                     value={maxTeamSize}
                                     onChange={handleMaxTeamSizeChange}
-                                    addonBefore="最多"
+                                    addonBefore={<UserOutlined />}
+                                    prefix="最少"
+                                    addonAfter="人"
+                                />
+                            </ProForm.Item>
+                        </ProForm.Group>
+                    </ProForm.Item>
+                    <ProForm.Item label={"团队指导老师数量"} tooltip={"设置比赛每个团队的指导老师人数范围"}>
+                        {/*设置指导老师*/}
+                        <ProForm.Group >
+                            <ProForm.Item name="minTeamTeacherSize" noStyle>
+                                <InputNumber
+                                    min={1}
+                                    max={maxTeamTeacherSize - 1}
+                                    value={minTeamTeacherSize}
+                                    onChange={handleMinTeamTeacherSizeChange}
+                                    addonBefore={<UserOutlined />}
+                                    prefix="最少"
+                                    addonAfter="人"
+                                />
+                            </ProForm.Item>
+                            <ProForm.Item name="maxTeamTeacherSize" noStyle>
+                                <InputNumber
+                                    min={minTeamTeacherSize + 1}
+                                    max={10}
+                                    value={maxTeamTeacherSize}
+                                    onChange={handleMaxTeamTeacherSizeChange}
+                                    addonBefore={<UserOutlined />}
+                                    prefix="最少"
                                     addonAfter="人"
                                 />
                             </ProForm.Item>

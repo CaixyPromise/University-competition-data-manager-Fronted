@@ -25,8 +25,9 @@ import useStyles from './style.style';
 import {useParams} from "@@/exports";
 import {getMatchInfoUsingGET} from "@/services/matchService/competitionInfoController";
 import dayjs from "dayjs";
-import {awardDetailsColumns} from "@/pages/competition/profile/configs";
+import {awardDetailsColumns, expandedRowRender, groupDetailsColumns} from "@/pages/competition/profile/configs";
 import {DataNode} from "@umijs/utils/compiled/cheerio/domhandler/lib";
+import {record} from "@umijs/utils/compiled/zod";
 
 const ButtonGroup = Button.Group;
 
@@ -78,7 +79,6 @@ const Advanced: FC = () =>
     const [ loading, setLoading ] = useState<boolean>(true)
     const { Title, Paragraph } = Typography
     const { Step } = Steps;
-
 
 
     const action = (
@@ -281,6 +281,8 @@ const Advanced: FC = () =>
                     </Descriptions.Item>
                     <Descriptions.Item label="比赛团队最大人数">{data.maxTeamSize} 人</Descriptions.Item>
                     <Descriptions.Item label="比赛团队最少人数">{data.minTeamSize} 人</Descriptions.Item>
+                    <Descriptions.Item label="比赛团队指导老师最大人数">{data.maxTeacherSize} 人</Descriptions.Item>
+                    <Descriptions.Item label="比赛团队指导老师最少人数">{data.maxTeacherSize} 人</Descriptions.Item>
                     {data.matchTags && <Descriptions.Item label="比赛标签">
                         {data.matchTags.map((item, index) => (
                             <Tag
@@ -415,6 +417,7 @@ const Advanced: FC = () =>
             operationKey: key as 'tab1',
         });
     };
+
     return (
         loading ? <Spin size={"large"}/> :
             <PageContainer
@@ -466,6 +469,7 @@ const Advanced: FC = () =>
                                 )}
                             </RouteContext.Consumer>
                         </Card>
+
                         <Card
                             title="比赛介绍说明"
                             style={{
@@ -481,6 +485,17 @@ const Advanced: FC = () =>
                             </Typography>
                         </Card>
                         <Card
+                            title="比赛项目分组划分"
+                            style={{ marginBottom: 24 }}
+                            bordered={false}
+                        >
+                            <Table
+                                columns={groupDetailsColumns}
+                                dataSource={data.groupData}
+                                expandable={record => expandedRowRender(record)}
+                            />
+                        </Card>
+                        <Card
                             title="比赛奖项设置"
                             style={{
                                 marginBottom: 24,
@@ -493,30 +508,27 @@ const Advanced: FC = () =>
                                 dataSource={data.matchAward}
                             />
                         </Card>
-                        {/*<Card bordered={false} tabList={operationTabList} onTabChange={onOperationTabChange}>*/}
-                        {/*    {contentList[tabStatus.operationKey] as React.ReactNode}*/}
-                        {/*</Card>*/}
-                        {
-                            data && isPermission(data) ?
-                                <>
-                                    <Card title={"比赛参加学院权限规则"}
-                                          style={{
-                                              marginBottom: 24,
-                                          }}
-                                          bordered={false}
-                                    >
-                                        <div>
-                                            <Tree
-                                                showLine
-                                                autoExpandParent={true}
-                                                treeData={treeData()}
-                                            />
-                                        </div>
-                                    </Card>
-                                </>
-                                :
-                                <></>
-                        }
+
+                        data && isPermission(data) ?
+                        <>
+                            <Card title={"比赛参加学院权限规则"}
+                                  style={{
+                                      marginBottom: 24,
+                                  }}
+                                  bordered={false}
+                            >
+                                <div>
+                                    <Tree
+                                        showLine
+                                        autoExpandParent={true}
+                                        treeData={treeData()}
+                                    />
+                                </div>
+                            </Card>
+                        </>
+                        :
+                        <></>
+
                     </GridContent>
                 </div>
             </PageContainer>

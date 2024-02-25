@@ -190,6 +190,16 @@ declare namespace API {
     userId: number;
   };
 
+  type GroupDataItem = {
+    children?: GroupDataItem[];
+    decs?: string;
+    id?: number;
+    index?: number;
+    maxTeamNum?: number;
+    parentGroupName?: string;
+    permission?: Option[][];
+  };
+
   type HashMapStringString_ = true;
 
   type listByIdsUsingGET1Params = {
@@ -256,6 +266,7 @@ declare namespace API {
 
   type MatchInfoAddRequest = {
     fileList?: string[];
+    groupData?: GroupDataItem[];
     matchAward?: MatchAward[];
     matchDate?: string[];
     matchDesc?: string;
@@ -269,11 +280,14 @@ declare namespace API {
     maxTeamSize?: number;
     minTeamSize?: number;
     signupDate?: string[];
+    teacherSize?: number[];
+    teamSize?: number[];
   };
 
   type MatchInfoProfileVO = {
     createUserInfo?: UserWorkVO;
     endTime?: string;
+    groupData?: GroupDataItem[];
     id?: number;
     matchAward?: MatchAward[];
     matchDesc?: string;
@@ -285,7 +299,9 @@ declare namespace API {
     matchStatus?: number;
     matchTags?: string[];
     matchType?: string;
+    maxTeacherSize?: number;
     maxTeamSize?: number;
+    minTeacherSize?: number;
     minTeamSize?: number;
     signUpEndTime?: string;
     signUpStartTime?: string;
@@ -304,6 +320,7 @@ declare namespace API {
   type MatchInfoQueryVO = {
     createUserInfo?: UserWorkVO;
     endTime?: string;
+    groupData?: GroupDataItem[];
     id?: number;
     matchAward?: MatchAward[];
     matchDesc?: string;
@@ -315,7 +332,9 @@ declare namespace API {
     matchStatus?: number;
     matchTags?: string[];
     matchType?: string;
+    maxTeacherSize?: number;
     maxTeamSize?: number;
+    minTeacherSize?: number;
     minTeamSize?: number;
     signUpEndTime?: string;
     signUpStartTime?: string;
@@ -421,6 +440,13 @@ declare namespace API {
       | 'NETWORK_AUTHENTICATION_REQUIRED';
     view?: View;
     viewName?: string;
+  };
+
+  type Option = {
+    children?: Option[];
+    key?: string;
+    label?: string;
+    value?: string;
   };
 
   type OrderItem = {
