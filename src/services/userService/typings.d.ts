@@ -162,6 +162,11 @@ declare namespace API {
     id?: number;
   };
 
+  type getUserWorkVOUsingGET1Params = {
+    /** userId */
+    userId: number;
+  };
+
   type listByIdsUsingGET1Params = {
     /** idList */
     idList: number[];
@@ -457,6 +462,14 @@ declare namespace API {
     userName?: string;
     userProfile?: string;
     userRole?: string;
+  };
+
+  type UserWorkVO = {
+    userAccount?: string;
+    userDepartment?: string;
+    userEmail?: string;
+    userMajor?: string;
+    userName?: string;
   };
 
   type View = {

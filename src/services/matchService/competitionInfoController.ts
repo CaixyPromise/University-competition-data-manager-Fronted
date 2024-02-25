@@ -2,20 +2,36 @@
 /* eslint-disable */
 import { request } from '@umijs/max';
 
-/** addMatchInfo POST /api/competition/Competition/add */
+/** 添加信息 添加信息接口 POST /api/competition/Competition/add */
 export async function addMatchInfoUsingPOST(
-  body: API.MatchInfoAddRequest,
-  options?: { [key: string]: any },
-) {
-  return request<API.BaseResponseLong_>('/api/competition/Competition/add', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+    body: {
+      /** 业务数据 */
+      data: string;
     },
-    data: body,
+    file?: File,
+    options?: { [key: string]: any },
+) {
+  const formData = new FormData();
+
+  if (file) {
+    formData.append('file', file);
+  }
+  const json = JSON.stringify(body.data);
+// 将 json 字符串转化为 Blob 对象
+  const blob = new Blob([json], {
+    type: 'application/json',
+  });
+  formData.append("data", blob)
+
+
+  return request<API.BaseResponseString_>('/api/competition/Competition/add', {
+    method: 'POST',
+    data: formData,
+    requestType: 'form',
     ...(options || {}),
   });
 }
+
 
 /** deleteMatchInfo POST /api/competition/Competition/delete */
 export async function deleteMatchInfoUsingPOST(
@@ -28,6 +44,21 @@ export async function deleteMatchInfoUsingPOST(
       'Content-Type': 'application/json',
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+/** getMatchInfo GET /api/competition/Competition/get/profile */
+export async function getMatchInfoUsingGET(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getMatchInfoUsingGET1Params,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseMatchInfoProfileVO_>('/api/competition/Competition/get/profile', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
     ...(options || {}),
   });
 }
@@ -45,6 +76,24 @@ export async function listMatchInfoByPageUsingPOST(
     data: body,
     ...(options || {}),
   });
+}
+
+/** listMatchInfoByVoPage POST /api/competition/Competition/list/page/vo */
+export async function listMatchInfoByVoPageUsingPOST(
+  body: API.MatchInfoQueryRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponsePageMatchInfoQueryVO_>(
+    '/api/competition/Competition/list/page/vo',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: body,
+      ...(options || {}),
+    },
+  );
 }
 
 /** updateMatchInfo POST /api/competition/Competition/update */

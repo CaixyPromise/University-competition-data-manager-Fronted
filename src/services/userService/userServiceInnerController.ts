@@ -17,6 +17,21 @@ export async function getByIdUsingGET(
   });
 }
 
+/** getUserWorkVO GET /api/user/inner/get/id/vo */
+export async function getUserWorkVoUsingGET(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getUserWorkVOUsingGET1Params,
+  options?: { [key: string]: any },
+) {
+  return request<API.UserWorkVO>('/api/user/inner/get/id/vo', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 /** listByIds GET /api/user/inner/get/ids */
 export async function listByIdsUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)

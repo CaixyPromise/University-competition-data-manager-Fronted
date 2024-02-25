@@ -6,6 +6,15 @@ export default [
     },
     { path: '/welcome', name: '欢迎', icon: 'smile', component: './Welcome' },
     {
+        path: "/competition",
+        name: "信息广场",
+        routes: [
+            {path: "/competition", redirect: "/competition/index"},
+            {path: "/competition/index", component: "./competition/Index", name: "竞赛广场"},
+            {path: "/competition/profile/:id",hideInMenu: true, component: "./competition/profile", name: "竞赛详情", }
+        ]
+    },
+    {
         path: '/admin',
         name: '管理页',
         icon: 'crown',

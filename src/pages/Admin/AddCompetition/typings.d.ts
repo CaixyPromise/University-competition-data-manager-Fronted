@@ -3,6 +3,15 @@ import React from "react";
 declare namespace AddMatchTypes
 {
 
+    type GroupDataItem = {
+        id?: React.Key;
+        parentGroupName?: string;
+        permission?: "yes" | "no";
+        maxTeamNum?: number;
+        decs?: string;
+        children?: GroupDataItem[];
+    };
+
     type option = {
         label: string,
         value: string,

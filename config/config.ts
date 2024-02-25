@@ -138,6 +138,7 @@ export default defineConfig({
       requestLibPath: "import { request } from '@umijs/max'",
       schemaPath: 'http://localhost:8101/api/user/v2/api-docs',
       projectName: 'userService',
+
     },
     {
       requestLibPath: "import { request } from '@umijs/max'",

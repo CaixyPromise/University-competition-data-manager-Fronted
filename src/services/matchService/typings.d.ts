@@ -41,6 +41,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseMatchInfoProfileVO_ = {
+    code?: number;
+    data?: MatchInfoProfileVO;
+    message?: string;
+  };
+
   type BaseResponsePageDepartmentInfo_ = {
     code?: number;
     data?: PageDepartmentInfo_;
@@ -74,6 +80,12 @@ declare namespace API {
   type BaseResponsePageUserVO_ = {
     code?: number;
     data?: PageUserVO_;
+    message?: string;
+  };
+
+  type BaseResponseString_ = {
+    code?: number;
+    data?: string;
     message?: string;
   };
 
@@ -158,6 +170,11 @@ declare namespace API {
     departmentId: number;
   };
 
+  type getMatchInfoUsingGET1Params = {
+    /** id */
+    id: number;
+  };
+
   type getUserByIdUsingGET1Params = {
     /** id */
     id?: number;
@@ -167,6 +184,13 @@ declare namespace API {
     /** id */
     id?: number;
   };
+
+  type getUserWorkVOUsingGET1Params = {
+    /** userId */
+    userId: number;
+  };
+
+  type HashMapStringString_ = true;
 
   type listByIdsUsingGET1Params = {
     /** idList */
@@ -223,15 +247,21 @@ declare namespace API {
     majorName?: string;
   };
 
+  type MatchAward = {
+    awardContent?: string;
+    awardCount?: number;
+    awardDesc?: string;
+    awardName?: string;
+  };
+
   type MatchInfoAddRequest = {
-    hasFileList?: boolean;
+    fileList?: string[];
+    matchAward?: MatchAward[];
     matchDate?: string[];
     matchDesc?: string;
     matchLevel?: string;
-    matchLogo?: string;
     matchName?: string;
     matchPermissionRule?: MatchPermission[][];
-    matchReward?: MatchReward[];
     matchRule?: string;
     matchStatus?: number;
     matchTags?: string[];
@@ -241,18 +271,11 @@ declare namespace API {
     signupDate?: string[];
   };
 
-  type MatchInfoQueryRequest = {
-    current?: number;
-    matchName?: string;
-    pageSize?: number;
-    sortField?: string;
-    sortOrder?: string;
-  };
-
-  type MatchInfoQueryVO = {
+  type MatchInfoProfileVO = {
+    createUserInfo?: UserWorkVO;
     endTime?: string;
     id?: number;
-    matchAward?: Record<string, any>;
+    matchAward?: MatchAward[];
     matchDesc?: string;
     matchLevel?: string;
     matchName?: string;
@@ -260,10 +283,43 @@ declare namespace API {
     matchPic?: string;
     matchRule?: string;
     matchStatus?: number;
-    matchTags?: Record<string, any>;
+    matchTags?: string[];
     matchType?: string;
+    maxTeamSize?: number;
+    minTeamSize?: number;
+    signUpEndTime?: string;
+    signUpStartTime?: string;
     startTime?: string;
-    teamSize?: number;
+  };
+
+  type MatchInfoQueryRequest = {
+    current?: number;
+    id?: number;
+    matchName?: string;
+    pageSize?: number;
+    sortField?: string;
+    sortOrder?: string;
+  };
+
+  type MatchInfoQueryVO = {
+    createUserInfo?: UserWorkVO;
+    endTime?: string;
+    id?: number;
+    matchAward?: MatchAward[];
+    matchDesc?: string;
+    matchLevel?: string;
+    matchName?: string;
+    matchPermissionRule?: Record<string, any>;
+    matchPic?: string;
+    matchRule?: string;
+    matchStatus?: number;
+    matchTags?: string[];
+    matchType?: string;
+    maxTeamSize?: number;
+    minTeamSize?: number;
+    signUpEndTime?: string;
+    signUpStartTime?: string;
+    startTime?: string;
   };
 
   type MatchInfoUpdateRequest = {
@@ -287,13 +343,6 @@ declare namespace API {
     children?: MatchPermission[];
     label?: string;
     value?: string;
-  };
-
-  type MatchReward = {
-    rewardContent?: string;
-    rewardCount?: number;
-    rewardDesc?: string;
-    rewardName?: string;
   };
 
   type ModelAndView = {
@@ -549,6 +598,14 @@ declare namespace API {
     userName?: string;
     userProfile?: string;
     userRole?: string;
+  };
+
+  type UserWorkVO = {
+    userAccount?: string;
+    userDepartment?: string;
+    userEmail?: string;
+    userMajor?: string;
+    userName?: string;
   };
 
   type View = {

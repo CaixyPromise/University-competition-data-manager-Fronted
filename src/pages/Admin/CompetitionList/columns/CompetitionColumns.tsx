@@ -81,7 +81,6 @@ export const CompetitionColumns: ProColumns[] = [
         hideInSearch: true,
         render: (_, record) =>
         {
-            console.log("record is: ", record)
             if (record.matchTags === undefined || record.matchTags === null || record.matchTags.length === 0)
             {
                 return <Tag color="red">无</Tag>;
@@ -96,29 +95,29 @@ export const CompetitionColumns: ProColumns[] = [
             </>
         }
     },
-    {
-        title: '比赛奖品',
-        dataIndex: 'matchAward',
-        valueType: 'textarea',
-        hideInSearch: true,
-        render: (_, record) =>
-        {
-            if (record.matchAward === undefined || record.matchAward === null || record.matchAward.length === 0)
-            {
-                return <Tag color="red">无</Tag>;
-            }
-            const matchAward = record.matchAward;
-            return <>
-                <div>
-                    {Object.entries(matchAward).map(([ tag, description ]) => (
-                        <Tooltip title={description} key={tag}>
-                            <Tag color="blue">{tag}</Tag>
-                        </Tooltip>
-                    ))}
-                </div>
-            </>
-        }
-    },
+    // {
+    //     title: '比赛奖品',
+    //     dataIndex: 'matchAward',
+    //     valueType: 'textarea',
+    //     hideInSearch: true,
+    //     render: (_, record) =>
+    //     {
+    //         if (record.matchAward === undefined || record.matchAward === null || record.matchAward.length === 0)
+    //         {
+    //             return <Tag color="red">无</Tag>;
+    //         }
+    //         const matchAward = record.matchAward;
+    //         return <>
+    //             <div>
+    //                 {Object.entries(matchAward).map(([ tag, description ]) => (
+    //                     <Tooltip title={description} key={tag}>
+    //                         <Tag color="blue">{tag}</Tag>
+    //                     </Tooltip>
+    //                 ))}
+    //             </div>
+    //         </>
+    //     }
+    // },
     {
         title: '比赛创建人id',
         dataIndex: 'createdUser',
