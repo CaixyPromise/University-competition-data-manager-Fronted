@@ -367,8 +367,6 @@ const MatchForm: React.FC = () =>
             teamSize: [minTeamSize, maxTeamSize],
             groupData: updatePermission(groupSettingDataSource, permissionSelectValue)
         };
-        console.log(finalValues)
-        console.log("permissionSelectValue is: ", permissionSelectValue)
         setSubmitting(true); // 开始提交状态
 
         // 提交表单
@@ -663,8 +661,9 @@ const MatchForm: React.FC = () =>
                                     value={minTeamSize}
                                     onChange={handleMinTeamSizeChange}
                                     addonBefore={<UserOutlined />}
-                                    prefix="最少"
                                     addonAfter="人"
+                                    prefix="最少"
+
                                 />
                             </ProForm.Item>
                             <ProForm.Item name="maxTeamSize" noStyle >

@@ -11,7 +11,8 @@ export default [
         routes: [
             {path: "/competition", redirect: "/competition/index"},
             {path: "/competition/index", component: "./competition/Index", name: "竞赛广场"},
-            {path: "/competition/profile/:id",hideInMenu: true, component: "./competition/profile", name: "竞赛详情", }
+            {path: "/competition/profile/:id",hideInMenu: true, component: "./competition/profile", name: "竞赛详情", },
+            {path: "/competition/register/:id", hideInMenu: true, component: "./competition/registration", name: "竞赛报名", }
         ]
     },
     {

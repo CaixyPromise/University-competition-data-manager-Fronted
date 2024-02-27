@@ -153,6 +153,21 @@ export async function userRegisterUsingPOST(
   });
 }
 
+/** searchUserByUserNameAndAccount POST /api/user/search/team/user */
+export async function searchUserByUserNameAndAccountUsingPOST(
+  body: API.UserSearchRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseListSearchUserVO_>('/api/user/search/team/user', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** updateUser POST /api/user/update */
 export async function updateUserUsingPOST(
   body: API.UserUpdateRequest,

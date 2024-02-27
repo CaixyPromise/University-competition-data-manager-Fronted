@@ -23,6 +23,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseListSearchUserVO_ = {
+    code?: number;
+    data?: SearchUserVO[];
+    message?: string;
+  };
+
   type BaseResponseLoginUserVO_ = {
     code?: number;
     data?: LoginUserVO;
@@ -44,6 +50,12 @@ declare namespace API {
   type BaseResponseMatchInfoProfileVO_ = {
     code?: number;
     data?: MatchInfoProfileVO;
+    message?: string;
+  };
+
+  type BaseResponseMatchRegistrationVO_ = {
+    code?: number;
+    data?: MatchRegistrationVO;
     message?: string;
   };
 
@@ -175,6 +187,11 @@ declare namespace API {
     id: number;
   };
 
+  type getMatchInfoUsingGET3Params = {
+    /** matchId */
+    matchId: number;
+  };
+
   type getUserByIdUsingGET1Params = {
     /** id */
     id?: number;
@@ -202,16 +219,18 @@ declare namespace API {
 
   type HashMapStringString_ = true;
 
+  type HashMapStringString_1 = true;
+
   type listByIdsUsingGET1Params = {
     /** idList */
     idList: number[];
   };
 
   type LoginUserVO = {
-    createTime?: string;
-    id?: number;
-    updateTime?: string;
+    userAccount?: string;
     userAvatar?: string;
+    userDepartment?: number;
+    userMajor?: number;
     userName?: string;
     userProfile?: string;
     userRole?: string;
@@ -362,6 +381,16 @@ declare namespace API {
     children?: MatchPermission[];
     label?: string;
     value?: string;
+  };
+
+  type MatchRegistrationVO = {
+    groupData?: GroupDataItem[];
+    id?: string;
+    matchName?: string;
+    maxTeacherSize?: number;
+    maxTeamSize?: number;
+    minTeacherSize?: number;
+    minTeamSize?: number;
   };
 
   type ModelAndView = {
@@ -532,6 +561,13 @@ declare namespace API {
     total?: number;
   };
 
+  type SearchUserVO = {
+    userAccount?: string;
+    userDepartment?: string;
+    userMajor?: string;
+    userName?: string;
+  };
+
   type User = {
     createTime?: string;
     id?: number;
@@ -601,6 +637,12 @@ declare namespace API {
     checkPassword?: string;
     userAccount?: string;
     userPassword?: string;
+  };
+
+  type UserSearchRequest = {
+    useKeyword?: string;
+    userPermissionIds?: number[];
+    userRole?: string;
   };
 
   type UserUpdateMyRequest = {

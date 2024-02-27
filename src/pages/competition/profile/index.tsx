@@ -509,7 +509,6 @@ const Advanced: FC = () =>
                             />
                         </Card>
 
-                        data && isPermission(data) ?
                         <>
                             <Card title={"比赛参加学院权限规则"}
                                   style={{

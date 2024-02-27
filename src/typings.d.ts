@@ -27,6 +27,6 @@ interface ColumnsFunctionProps
 }
 interface InitialState
 {
-    currentUser?: API.UserVO,
+    currentUser?: API.LoginUserVO,
     settings?: Partial<LayoutSettings>
 }

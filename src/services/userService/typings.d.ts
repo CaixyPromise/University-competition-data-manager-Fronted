@@ -23,6 +23,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseListSearchUserVO_ = {
+    code?: number;
+    data?: SearchUserVO[];
+    message?: string;
+  };
+
   type BaseResponseLoginUserVO_ = {
     code?: number;
     data?: LoginUserVO;
@@ -173,10 +179,10 @@ declare namespace API {
   };
 
   type LoginUserVO = {
-    createTime?: string;
-    id?: number;
-    updateTime?: string;
+    userAccount?: string;
     userAvatar?: string;
+    userDepartment?: number;
+    userMajor?: number;
     userName?: string;
     userProfile?: string;
     userRole?: string;
@@ -370,6 +376,13 @@ declare namespace API {
     total?: number;
   };
 
+  type SearchUserVO = {
+    userAccount?: string;
+    userDepartment?: string;
+    userMajor?: string;
+    userName?: string;
+  };
+
   type User = {
     createTime?: string;
     id?: number;
@@ -439,6 +452,12 @@ declare namespace API {
     checkPassword?: string;
     userAccount?: string;
     userPassword?: string;
+  };
+
+  type UserSearchRequest = {
+    useKeyword?: string;
+    userPermissionIds?: number[];
+    userRole?: string;
   };
 
   type UserUpdateMyRequest = {

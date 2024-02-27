@@ -62,6 +62,24 @@ export async function getMatchInfoUsingGET(
   });
 }
 
+/** getRegistrationInfo POST /api/competition/Competition/get/registration */
+export async function getRegistrationInfoUsingPOST(
+  body: number,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseMatchRegistrationVO_>(
+    '/api/competition/Competition/get/registration',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: body,
+      ...(options || {}),
+    },
+  );
+}
+
 /** listMatchInfoByPage POST /api/competition/Competition/list/page */
 export async function listMatchInfoByPageUsingPOST(
   body: API.MatchInfoQueryRequest,
