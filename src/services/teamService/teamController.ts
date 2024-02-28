@@ -29,13 +29,13 @@ export async function deleteTeamUsingPost(
   });
 }
 
-/** getTeamById GET /api/team/team/get */
+/** getTeamById GET /api/team/team/get/info */
 export async function getTeamByIdUsingGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getTeamByIdUsingGETParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponseTeamInfo_>('/api/team/team/get', {
+  return request<API.BaseResponseTeamInfoVO_>('/api/team/team/get/info', {
     method: 'GET',
     params: {
       ...params,
@@ -110,7 +110,7 @@ export async function listTeamsByPageUsingGet(
   params: API.listTeamsByPageUsingGETParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponsePageTeamInfo_>('/api/team/team/list/page', {
+  return request<API.BaseResponsePageTeamInfoPageVO_>('/api/team/team/list/page', {
     method: 'GET',
     params: {
       ...params,

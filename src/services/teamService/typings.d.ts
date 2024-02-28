@@ -17,15 +17,15 @@ declare namespace API {
     message?: string;
   };
 
-  type BaseResponsePageTeamInfo_ = {
+  type BaseResponsePageTeamInfoPageVO_ = {
     code?: number;
-    data?: PageTeamInfo_;
+    data?: PageTeamInfoPageVO_;
     message?: string;
   };
 
-  type BaseResponseTeamInfo_ = {
+  type BaseResponseTeamInfoVO_ = {
     code?: number;
-    data?: TeamInfo;
+    data?: TeamInfoVO;
     message?: string;
   };
 
@@ -34,8 +34,8 @@ declare namespace API {
   };
 
   type getTeamByIdUsingGETParams = {
-    /** id */
-    id?: number;
+    /** teamId */
+    teamId: string;
   };
 
   type listMyCreateTeamsUsingGETParams = {
@@ -181,14 +181,14 @@ declare namespace API {
     column?: string;
   };
 
-  type PageTeamInfo_ = {
+  type PageTeamInfoPageVO_ = {
     countId?: string;
     current?: number;
     maxLimit?: number;
     optimizeCountSql?: boolean;
     orders?: OrderItem[];
     pages?: number;
-    records?: TeamInfo[];
+    records?: TeamInfoPageVO[];
     searchCount?: boolean;
     size?: number;
     total?: number;
@@ -197,32 +197,52 @@ declare namespace API {
   type TeamAddRequest = {
     matchCategoryId?: string;
     matchEventId?: string;
-    matchId?: string;
-    teachers?: string[];
+    matchId?: number;
+    teachers?: number[];
     teamDescription?: string;
     teamMaxSize?: number;
     teamName?: string;
     teamPassword?: string;
     teamStatus?: number;
-    teammates?: string[];
+    teamTags?: string[];
+    teammates?: number[];
   };
 
-  type TeamInfo = {
-    categoryId?: number;
+  type TeamInfoPageVO = {
     createTime?: string;
+    currentUserNum?: number;
     description?: string;
-    eventId?: number;
-    expireTime?: string;
     id?: number;
-    isDelete?: number;
     isPublic?: number;
     maxNum?: number;
     name?: string;
-    password?: string;
+    needPassword?: boolean;
     raceId?: number;
+    raceName?: string;
     status?: number;
-    updateTime?: string;
-    userId?: number;
+    teamTags?: string[];
+  };
+
+  type TeamInfoVO = {
+    categoryName?: string;
+    eventName?: string;
+    leaderInfo?: UserTeamWorkVO;
+    matchLevel?: string;
+    matchType?: string;
+    needPassword?: boolean;
+    raceId?: string;
+    raceMaxNum?: number;
+    raceMinNum?: number;
+    raceName?: string;
+    signUpEndTime?: string;
+    teacherList?: UserTeamWorkVO[];
+    teamCurrentNum?: number;
+    teamDesc?: string;
+    teamId?: string;
+    teamMaxNum?: number;
+    teamName?: string;
+    teamTags?: string[];
+    userList?: UserTeamWorkVO[];
   };
 
   type TeamJoinRequest = {
@@ -256,6 +276,16 @@ declare namespace API {
     status?: number;
     updateTime?: string;
     userId?: number;
+  };
+
+  type UserTeamWorkVO = {
+    teamId?: string;
+    teamUserRole?: number;
+    userAccount?: string;
+    userDepartment?: string;
+    userEmail?: string;
+    userMajor?: string;
+    userName?: string;
   };
 
   type UserVO = {

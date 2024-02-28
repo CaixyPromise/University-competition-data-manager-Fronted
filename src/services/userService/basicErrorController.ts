@@ -2,41 +2,41 @@
 /* eslint-disable */
 import { request } from '@umijs/max';
 
-/** error GET /api/user/error */
-export async function errorUsingGET(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/user/error', {
+/** errorHtml GET /api/user/error */
+export async function errorHtmlUsingGET(options?: { [key: string]: any }) {
+  return request<API.ModelAndView>('/api/user/error', {
     method: 'GET',
     ...(options || {}),
   });
 }
 
-/** error PUT /api/user/error */
-export async function errorUsingPut1(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/user/error', {
+/** errorHtml PUT /api/user/error */
+export async function errorHtmlUsingPut1(options?: { [key: string]: any }) {
+  return request<API.ModelAndView>('/api/user/error', {
     method: 'PUT',
     ...(options || {}),
   });
 }
 
-/** error POST /api/user/error */
-export async function errorUsingPOST(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/user/error', {
+/** errorHtml POST /api/user/error */
+export async function errorHtmlUsingPOST(options?: { [key: string]: any }) {
+  return request<API.ModelAndView>('/api/user/error', {
     method: 'POST',
     ...(options || {}),
   });
 }
 
-/** error DELETE /api/user/error */
-export async function errorUsingDelete1(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/user/error', {
+/** errorHtml DELETE /api/user/error */
+export async function errorHtmlUsingDelete1(options?: { [key: string]: any }) {
+  return request<API.ModelAndView>('/api/user/error', {
     method: 'DELETE',
     ...(options || {}),
   });
 }
 
-/** error PATCH /api/user/error */
-export async function errorUsingPatch1(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/user/error', {
+/** errorHtml PATCH /api/user/error */
+export async function errorHtmlUsingPatch1(options?: { [key: string]: any }) {
+  return request<API.ModelAndView>('/api/user/error', {
     method: 'PATCH',
     ...(options || {}),
   });

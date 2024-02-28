@@ -6,13 +6,27 @@ export default [
     },
     { path: '/welcome', name: '欢迎', icon: 'smile', component: './Welcome' },
     {
+        path: "/team",
+        name: "团队中心",
+        routes: [ { path: '/team', redirect: '/team/index' },
+            { path: '/team/index', component: './team/teamList', name: '团队中心' },
+            { path: '/team/profile/:id', component: "./team/profile", name: '团队详情', hideInMenu: true }
+        ]
+    },
+    {
         path: "/competition",
         name: "信息广场",
         routes: [
-            {path: "/competition", redirect: "/competition/index"},
-            {path: "/competition/index", component: "./competition/Index", name: "竞赛广场"},
-            {path: "/competition/profile/:id",hideInMenu: true, component: "./competition/profile", name: "竞赛详情", },
-            {path: "/competition/register/:id", hideInMenu: true, component: "./competition/registration", name: "竞赛报名", }
+            { path: "/competition", redirect: "/competition/index" },
+            { path: "/competition/index", component: "./competition/Index", name: "竞赛广场" },
+            {
+                path: "/competition/profile/:id", hideInMenu: true, component: "./competition/profile",
+                name: "竞赛详情",
+            },
+            {
+                path: "/competition/register/:id", hideInMenu: true, component: "./competition/registration",
+                name: "竞赛报名",
+            }
         ]
     },
     {

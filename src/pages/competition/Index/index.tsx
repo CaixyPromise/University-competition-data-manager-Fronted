@@ -2,11 +2,12 @@ import {Card, Form, List, message, Space, Tag, Typography} from 'antd';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import type {FC} from 'react';
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import useStyles from './style.style';
 import {listMatchInfoByVoPageUsingPOST} from "@/services/matchService/competitionInfoController";
 import {CategoriesItem} from "@/pages/competition/Index/typings";
 import {history} from "@umijs/max";
+import PrettyTag from "@/components/PrettyTag";
 
 dayjs.extend(relativeTime);
 
@@ -14,17 +15,6 @@ const FormItem = Form.Item;
 const { Paragraph } = Typography;
 
 
-function getRandomRGBColor()
-{
-    const r = Math.floor(Math.random() * 256); // 红色分量
-    const g = Math.floor(Math.random() * 256); // 绿色分量
-    const b = Math.floor(Math.random() * 256); // 蓝色分量
-    const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-    return {
-        tagBgColor: `rgb(${r},${g},${b})`,
-        tagTextColor: (yiq >= 128) ? 'black' : 'white'
-    }
-}
 
 
 const Projects: FC = () =>
@@ -150,13 +140,7 @@ const Projects: FC = () =>
                             <Space size={[ 0, 8 ]} wrap>
                                 {item.matchTags?.map((tags) =>
                                 {
-                                    const { tagBgColor, tagTextColor } = getRandomRGBColor();
-                                    return (<Tag style={{
-                                        backgroundColor: tagBgColor,
-                                        color: tagTextColor,
-                                        borderColor: tagBgColor
-                                        // borderColor: "#000000"
-                                    }} key={tags}>{tags}</Tag>)
+                                    return <PrettyTag content={tags} />
                                 })}
                             </Space>
                         </Card>

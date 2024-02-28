@@ -221,6 +221,8 @@ declare namespace API {
 
   type HashMapStringString_1 = true;
 
+  type HashMapStringString_2 = true;
+
   type listByIdsUsingGET1Params = {
     /** idList */
     idList: number[];

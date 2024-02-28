@@ -2,13 +2,13 @@
 /* eslint-disable */
 import { request } from '@umijs/max';
 
-/** getById GET /api/user/inner/get/id */
+/** getById GET /api/competition/inner/get/id */
 export async function getByIdUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getByIdUsingGET1Params,
   options?: { [key: string]: any },
 ) {
-  return request<API.User>('/api/user/inner/get/id', {
+  return request<API.User>('/api/competition/inner/get/id', {
     method: 'GET',
     params: {
       ...params,
@@ -17,13 +17,13 @@ export async function getByIdUsingGET(
   });
 }
 
-/** getUserWorkVO GET /api/user/inner/get/id/vo */
+/** getUserWorkVO GET /api/competition/inner/get/id/vo */
 export async function getUserWorkVoUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getUserWorkVOUsingGET1Params,
   options?: { [key: string]: any },
 ) {
-  return request<API.UserWorkVO>('/api/user/inner/get/id/vo', {
+  return request<API.UserWorkVO>('/api/competition/inner/get/id/vo', {
     method: 'GET',
     params: {
       ...params,
@@ -32,13 +32,13 @@ export async function getUserWorkVoUsingGET(
   });
 }
 
-/** listByIds GET /api/user/inner/get/ids */
+/** listByIds GET /api/competition/inner/get/ids */
 export async function listByIdsUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.listByIdsUsingGET1Params,
   options?: { [key: string]: any },
 ) {
-  return request<API.User[]>('/api/user/inner/get/ids', {
+  return request<API.User[]>('/api/competition/inner/get/ids', {
     method: 'GET',
     params: {
       ...params,
@@ -47,13 +47,13 @@ export async function listByIdsUsingGET(
   });
 }
 
-/** validateDepartmentsAndMajors POST /api/user/inner/validate/departments-and-majors */
+/** validateDepartmentsAndMajors POST /api/competition/inner/validate/departments-and-majors */
 export async function validateDepartmentsAndMajorsUsingPOST(
   body: Record<string, any>,
   options?: { [key: string]: any },
 ) {
   return request<API.DepartAndMajorValidationResponse>(
-    '/api/user/inner/validate/departments-and-majors',
+    '/api/competition/inner/validate/departments-and-majors',
     {
       method: 'POST',
       headers: {
@@ -65,9 +65,9 @@ export async function validateDepartmentsAndMajorsUsingPOST(
   );
 }
 
-/** validateUsers POST /api/user/inner/validate/users */
+/** validateUsers POST /api/competition/inner/validate/users */
 export async function validateUsersUsingPOST(body: number[], options?: { [key: string]: any }) {
-  return request<boolean>('/api/user/inner/validate/users', {
+  return request<boolean>('/api/competition/inner/validate/users', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

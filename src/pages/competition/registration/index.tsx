@@ -172,15 +172,6 @@ const StepForm: React.FC<Record<string, any>> = () =>
         setStatusCode(calculateStatusCode());
     }, [ stepData.teamIsPublic, needPassword ]);
 
-    // const onFinish = async (values: StepDataType) =>
-    // {
-    //     const { code } = await updateRegistrationInfoUsingPOST(id, values);
-    //     if (code === 0)
-    //     {
-    //         message.success("操作成功");
-    //         navigate("/registration/list");
-    //     }
-    // }
     const findGroupAndEventNames = (groupData, values) =>
     {
         let groupName = "";
