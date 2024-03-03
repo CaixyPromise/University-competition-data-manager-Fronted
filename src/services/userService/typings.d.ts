@@ -1,4 +1,23 @@
 declare namespace API {
+  type AboutMeVO = {
+    userAccount?: string;
+    userAvatar?: string;
+    userDepartment?: string;
+    userEmail?: string;
+    userId?: number;
+    userMajor?: string;
+    userName?: string;
+    userProfile?: string;
+    userSex?: string;
+    userTags?: string[];
+  };
+
+  type BaseResponseAboutMeVO_ = {
+    code?: number;
+    data?: AboutMeVO;
+    message?: string;
+  };
+
   type BaseResponseBoolean_ = {
     code?: number;
     data?: boolean;
@@ -136,6 +155,11 @@ declare namespace API {
     departmentId?: number;
     departmentName?: string;
     majors?: MajorInnerInfo[];
+  };
+
+  type getByAccountUsingGET1Params = {
+    /** userId */
+    userId: string;
   };
 
   type getByIdUsingGET1Params = {
@@ -379,6 +403,7 @@ declare namespace API {
   type SearchUserVO = {
     userAccount?: string;
     userDepartment?: string;
+    userId?: number;
     userMajor?: string;
     userName?: string;
   };
@@ -399,6 +424,7 @@ declare namespace API {
     userProfile?: string;
     userRole?: string;
     userRoleLevel?: number;
+    userSex?: number;
     userTags?: string;
   };
 
@@ -487,6 +513,7 @@ declare namespace API {
     userAccount?: string;
     userDepartment?: string;
     userEmail?: string;
+    userId?: number;
     userMajor?: string;
     userName?: string;
   };

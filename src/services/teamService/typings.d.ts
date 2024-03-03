@@ -5,6 +5,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseListTeamInfoVO_ = {
+    code?: number;
+    data?: TeamInfoVO[];
+    message?: string;
+  };
+
   type BaseResponseListTeamUserVO_ = {
     code?: number;
     data?: TeamUserVO[];
@@ -35,7 +41,12 @@ declare namespace API {
 
   type getTeamByIdUsingGETParams = {
     /** teamId */
-    teamId: string;
+    teamId: number;
+  };
+
+  type getTeamProfileInfoByIdUsingGETParams = {
+    /** teamId */
+    teamId: number;
   };
 
   type listMyCreateTeamsUsingGETParams = {
@@ -51,6 +62,7 @@ declare namespace API {
     sortOrder?: string;
     status?: number;
     userId?: number;
+    userRole?: number;
   };
 
   type listMyJoinTeamsUsingGETParams = {
@@ -66,6 +78,7 @@ declare namespace API {
     sortOrder?: string;
     status?: number;
     userId?: number;
+    userRole?: number;
   };
 
   type listTeamsByPageUsingGETParams = {
@@ -81,6 +94,7 @@ declare namespace API {
     sortOrder?: string;
     status?: number;
     userId?: number;
+    userRole?: number;
   };
 
   type listTeamsUsingGETParams = {
@@ -96,6 +110,7 @@ declare namespace API {
     sortOrder?: string;
     status?: number;
     userId?: number;
+    userRole?: number;
   };
 
   type ModelAndView = {
@@ -194,6 +209,17 @@ declare namespace API {
     total?: number;
   };
 
+  type registerUsingPOSTParams = {
+    /** teamId */
+    teamId: number;
+  };
+
+  type ResolveAndRejectRequest = {
+    raceId?: number;
+    teamId?: number;
+    userAccount?: string;
+  };
+
   type TeamAddRequest = {
     matchCategoryId?: string;
     matchEventId?: string;
@@ -224,8 +250,13 @@ declare namespace API {
   };
 
   type TeamInfoVO = {
+    applyList?: UserTeamWorkVO[];
     categoryName?: string;
     eventName?: string;
+    isApply?: boolean;
+    isLeader?: boolean;
+    isMember?: boolean;
+    leaderId?: number;
     leaderInfo?: UserTeamWorkVO;
     matchLevel?: string;
     matchType?: string;
@@ -247,6 +278,7 @@ declare namespace API {
 
   type TeamJoinRequest = {
     password?: string;
+    raceId?: number;
     teamId?: number;
   };
 

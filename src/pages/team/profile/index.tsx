@@ -1,12 +1,21 @@
 import {DownOutlined,} from '@ant-design/icons';
-import {GridContent, PageContainer, ProForm, ProFormInstance, RouteContext, ProFormText} from '@ant-design/pro-components';
+import {
+    GridContent,
+    PageContainer,
+    ProForm,
+    ProFormInstance,
+    ProFormText,
+    RouteContext
+} from '@ant-design/pro-components';
 import {history} from '@umijs/max';
 import {
     Button,
     Card,
     Descriptions,
-    Dropdown, Empty,
-    message, Modal,
+    Dropdown,
+    Empty,
+    message,
+    Modal,
     Space,
     Spin,
     Statistic,
@@ -18,9 +27,16 @@ import React, {useEffect, useRef, useState} from 'react';
 import useStyles from './style.style';
 import {useParams} from "@@/exports";
 import dayjs from "dayjs";
-import {getTeamByIdUsingGet} from "@/services/teamService/teamController";
+import {
+    getTeamByIdUsingGET, handleRejectJoinTeamUsingPOST,
+    handleResolveJoinTeamUsingPOST,
+    joinTeamUsingPOST
+} from "@/services/teamService/teamController";
 import PrettyTag from "@/components/PrettyTag";
-import {userInfoColumn} from "@/pages/team/profile/data.d";
+import {userApplyColumn, userInfoColumn} from "@/pages/team/profile/data.d";
+import {UNIMPLEMENTED} from "@/utils/functional";
+import {record} from "@umijs/utils/compiled/zod";
+import {signUpRaceUsingPOST} from "@/services/matchService/registrationController";
 
 const ButtonGroup = Button.Group;
 
@@ -29,6 +45,98 @@ type AdvancedState = {
     operationKey: 'tab1' | 'tab2' | 'tab3';
     tabActiveKey: string;
 };
+
+const getUserActions = (isLeader, isMember, isApply, data, id) =>
+{
+    if (isLeader)
+    {
+        return (
+            <RouteContext.Consumer>
+                {({ isMobile }) =>
+                {
+                    const items = [
+                        { key: 'dissolve', label: '解散团队', onClick: UNIMPLEMENTED },
+                        { key: 'share', label: '分享队伍链接', onClick: UNIMPLEMENTED },
+                    ];
+                    if (isMobile)
+                    {
+                        return (
+                            <Dropdown.Button
+                                type="primary"
+                                icon={<DownOutlined/>}
+                                overlay={<Menu items={UNIMPLEMENTED}/>}
+                                placement="bottomRight"
+                            >
+                                报名比赛
+                            </Dropdown.Button>
+                        );
+                    }
+                    return (
+                        <Space>
+                            <ButtonGroup>
+                                <Button onClick={UNIMPLEMENTED}>解散团队</Button>
+                                <Button onClick={UNIMPLEMENTED}>分享队伍链接</Button>
+                            </ButtonGroup>
+                            <Button type="primary" onClick={async () =>
+                            {
+                                const response = await signUpRaceUsingPOST({
+                                    raceId: data.raceId,
+                                    teamId: id
+                                })
+                                if (response.code === 0 && response.data)
+                                {
+                                    message.success("报名成功");
+                                    return;
+                                }
+                                else
+                                {
+                                    message.error(`报名失败: ${response.message}`);
+                                }
+                            }}>团队报名</Button>
+                        </Space>
+                    );
+                }}
+            </RouteContext.Consumer>
+        );
+    }
+    else if (isMember)
+    {
+        return (
+            <RouteContext.Consumer>
+                {({ isMobile }) =>
+                {
+                    const items = [
+                        { key: 'leave', label: '退出队伍', onClick: UNIMPLEMENTED },
+                    ];
+                    if (isMobile)
+                    {
+                        return (
+                            <Dropdown.Button
+                                type="primary"
+                                icon={<DownOutlined/>}
+                                overlay={<Menu items={items}/>}
+                                placement="bottomRight"
+                            >
+                                分享队伍链接
+                            </Dropdown.Button>
+                        );
+                    }
+                    return (
+                        <Space>
+                            <Button onClick={UNIMPLEMENTED}>退出队伍</Button>
+                            <Button type="primary" onClick={UNIMPLEMENTED}>分享队伍链接</Button>
+                        </Space>
+                    );
+                }}
+            </RouteContext.Consumer>
+        );
+    }
+    else if (isApply)
+    {
+        return <Button type="primary" onClick={UNIMPLEMENTED}>分享队伍链接</Button>;
+    }
+    return null; // 当不是队长、成员或申请状态时，不显示按钮
+};
 const Advanced: FC = () =>
 {
     const { styles } = useStyles();
@@ -36,7 +144,7 @@ const Advanced: FC = () =>
     const [ data, setData ] = useState<API.TeamInfoVO>({});
     const [ loading, setLoading ] = useState<boolean>(true)
     const { Title, Paragraph } = Typography
-    const [passwordModal, setPasswordModal] = useState<boolean>(false);
+    const [ passwordModal, setPasswordModal ] = useState<boolean>(false);
     const formRef = useRef<
         ProFormInstance<{
             userPassword: string;
@@ -52,57 +160,30 @@ const Advanced: FC = () =>
             return;
         }
         message.success("申请成功")
+        const response = await joinTeamUsingPOST({
+            password: password,
+            raceId: data.raceId,
+            teamId: id
+        })
+        if (response.code === 0 && response.data === true)
+        {
+            message.success("申请成功，请耐心等待审核结果吧~");
+        }
+        else
+        {
+            message.error(`申请失败，失败原因: ${response.message}`)
+        }
+
         if (passwordModal)
         {
             setPasswordModal(false);
         }
     }
 
-    const action = (
-        <RouteContext.Consumer>
-            {({ isMobile }) =>
-            {
-                if (isMobile)
-                {
-                    return (
-                        <Dropdown.Button
-                            type="primary"
-                            icon={<DownOutlined/>}
-                            menu={{
-                                items: [
-                                    {
-                                        key: '1',
-                                        label: '联系队长',
-                                    },
-                                ],
-                            }}
-                            placement="bottomRight"
-                        >
-                            申请入队
-                        </Dropdown.Button>
-                    );
-                }
-                return (
-                    <Space>
-                        <ButtonGroup>
-                            <Button>联系队长</Button>
-                        </ButtonGroup>
-                        <Button type="primary" onClick={async () =>
-                        {
-                            if (data.needPassword)
-                            {
-                                setPasswordModal(true)
-                            }
-                            else
-                            {
-                                await tryApply();
-                            }
-                        }}>申请入队</Button>
-                    </Space>
-                );
-            }}
-        </RouteContext.Consumer>
-    );
+    const action = (isLeader: string, isMember: string, isApply: string, data: API.TeamInfoVO, id: string) =>
+    {
+        return getUserActions(isLeader, isMember, isApply, data, id);
+    };
 
     const fetchData = async () =>
     {
@@ -116,7 +197,7 @@ const Advanced: FC = () =>
         try
         {
             setLoading(true)
-            const { data, code } = await getTeamByIdUsingGet({
+            const { data, code } = await getTeamByIdUsingGET({
                 teamId: id
             })
             if (code === 0 && data)
@@ -204,12 +285,52 @@ const Advanced: FC = () =>
         tabActiveKey: 'detail',
     });
 
+    const submitUserRequest = async (event: number, record: any) => {
+        try {
+            let response;
+            // 通过
+            if (event === 1) {
+                response = await handleResolveJoinTeamUsingPOST({
+                    raceId: data.raceId,
+                    teamId: data.teamId,
+                    userAccount: record.userAccount
+                });
+            } else {
+                response = await handleRejectJoinTeamUsingPOST({
+                    raceId: data.raceId,
+                    teamId: data.teamId,
+                    userAccount: record.userAccount
+                });
+            }
+            if (response.code === 0 && response.data) {
+                message.success(`操作成功`);
+                // 考虑更新状态或使用路由导航而不是重新加载
+            } else {
+                message.error(`操作失败: ${response.msg}`);
+            }
+        } catch (e) {
+            message.error("操作失败: " + e.message);
+        }
+    };
+
+
+    const handleResolve = async (record) =>
+    {
+        await submitUserRequest(1, record);
+    }
+
+    const handleReject = async (record) =>
+    {
+        await submitUserRequest(0, record);
+
+    }
+
 
     return (
         loading ? <Spin size={"large"}/> :
             <PageContainer
                 title={`队伍信息: ${data.teamName}-团队信息`}
-                extra={action}
+                extra={action(data.isLeader, data.isMember, data.isApply, data, id)}
                 className={styles.pageHeader}
                 content={description}
                 extraContent={extra}
@@ -217,7 +338,23 @@ const Advanced: FC = () =>
             >
                 <div className={styles.main}>
                     <GridContent>
-
+                        {
+                            data.isLeader &&
+                            <Card title="申请审核"
+                                  style={{
+                                      marginBottom: 24,
+                                  }}
+                                  bordered={false}>
+                                {
+                                    data.applyList && data.applyList.length > 0 ?
+                                        <Table<API.UserTeamWorkVO>
+                                            columns={userApplyColumn(handleResolve, handleReject)}
+                                            dataSource={data.applyList}
+                                        />
+                                        : <Empty description={"暂无申请信息，快去邀请其他小伙伴加入团队吧！！"}/>
+                                }
+                            </Card>
+                        }
                         <Card
                             title="团队介绍说明"
                             style={{
@@ -238,9 +375,9 @@ const Advanced: FC = () =>
                             {
                                 data.userList && data.userList?.length > 0 ?
                                     <Table<API.UserTeamWorkVO>
-                                        columns={userInfoColumn}
+                                        columns={userInfoColumn(UNIMPLEMENTED, UNIMPLEMENTED)}
                                         dataSource={data.userList}/>
-                                    : <Empty description={"暂无成员信息"} />
+                                    : <Empty description={"暂无成员信息"}/>
                             }
                         </Card>
                         <Card
@@ -251,7 +388,7 @@ const Advanced: FC = () =>
                             {
                                 data.teacherList && data.teacherList?.length > 0 ?
                                     <Table<API.UserTeamWorkVO>
-                                        columns={userInfoColumn}
+                                        columns={userInfoColumn(UNIMPLEMENTED, UNIMPLEMENTED)}
                                         dataSource={data.teacherList}/>
                                     :
                                     <Empty description="暂无指导老师"/>

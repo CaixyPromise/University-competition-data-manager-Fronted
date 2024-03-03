@@ -6,12 +6,13 @@ type ArticleListContentProps = {
   data: {
     content: React.ReactNode;
     createAt: string;
+    // needTime?: boolean
     // avatar: string;
     // owner: string;
 
   };
 };
-const ArticleListContent: React.FC<ArticleListContentProps> = ({
+const ListContent: React.FC<ArticleListContentProps> = ({
   data: { content, createAt,  },
 }) => {
   const { styles } = useStyles();
@@ -20,10 +21,9 @@ const ArticleListContent: React.FC<ArticleListContentProps> = ({
       <div className={styles.description}>{content}</div>
       <div className={styles.extra}>
         {/*<Avatar src={avatar} size="small" />*/}
-        {/*<a href={href}>{owner}</a> 发布在 <a href={href}>{href}</a>*/}
-        <em>{dayjs(createAt).format('YYYY-MM-DD HH:mm')}</em>
+        发布时间：<em>{dayjs(createAt).format('YYYY-MM-DD HH:mm')}</em>
       </div>
     </div>
   );
 };
-export default ArticleListContent;
+export default ListContent;

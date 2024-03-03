@@ -415,7 +415,7 @@ const MatchForm: React.FC = () =>
                         name={'matchDesc'}
                         getValueFromEvent={(editorState) =>
                         {
-                            return editorState.toText();
+                            return editorState.toHTML();
                         }}
                         rules={[
                             {

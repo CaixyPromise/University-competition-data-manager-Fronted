@@ -36,6 +36,7 @@ export async function getInitialState(): Promise<InitialState>
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =>
 {
     return {
+        title: "CAIXYPROMISE",
         actionsRender: () => [ <Question key="doc"/> ],
         avatarProps: {
             src: initialState?.currentUser?.userAvatar,

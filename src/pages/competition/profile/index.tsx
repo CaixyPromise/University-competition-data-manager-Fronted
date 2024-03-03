@@ -28,6 +28,10 @@ import dayjs from "dayjs";
 import {awardDetailsColumns, expandedRowRender, groupDetailsColumns} from "@/pages/competition/profile/configs";
 import {DataNode} from "@umijs/utils/compiled/cheerio/domhandler/lib";
 import {record} from "@umijs/utils/compiled/zod";
+import DetailsContainer from "@/pages/competition/profile/components/DetailsContainer";
+import ConversationContainer from "@/pages/competition/profile/components/ConversationContainer";
+import NoticeTab from "@/pages/competition/profile/components/NoticeTab";
+import TeamRecommend from "@/pages/competition/profile/components/TeamRecommend";
 
 const ButtonGroup = Button.Group;
 
@@ -142,40 +146,42 @@ const Advanced: FC = () =>
                                 </Button>
                             </Dropdown>
                         </ButtonGroup>
-                        <Button type="primary">报名比赛</Button>
+                        <Button type="primary" onClick={()=>
+                        {
+                            history.push(`/competition/register/${id}`)
+                        }}>报名比赛</Button>
                     </Space>
                 );
             }}
         </RouteContext.Consumer>
     );
+    const getDayText = (targetTime: string, color: string, type: string, noticeText: string) =>
+    {
+        const formatTime = dayjs(targetTime);
+        const now = dayjs();
 
+        const betweenTime = formatTime.diff(now, 'day');
+
+        const isBefore = now.isBefore(formatTime);
+        if (isBefore)
+        {
+            return (
+                <span style={{ color: color }}>{type}还有{betweenTime}天{noticeText}</span>
+            );
+        }
+    }
+    const isPermission = (data: API.MatchInfoProfileVO) =>
+    {
+
+        const permissionRule = (data.matchPermissionRule);
+        // @ts-ignore
+        return Object.keys(permissionRule).length !== 0;
+
+    }
 
     // 用于生成权限树结构的数据
-    const generateTreeData = (dataList: Record<string, any>): DataNode[] =>
-    {
-        if (!dataList)
-        {
-            return [];
-        }
-        return Object.entries(dataList).map(([ departmentId, departmentData ]): DataNode =>
-        {
-            // 这里假设每个学院对象中都有一个特殊的"name"键存储学院名称，其他键则代表专业ID
-            const departmentName = departmentData['name'];
-            const majors: DataNode[] = Object.entries(departmentData)
-                .filter(([ key, _ ]) => key !== 'name') // 排除"name"键，处理剩余的专业ID和名称
-                .map(([ majorId, majorName ]): DataNode => ({
-                    title: majorName, // 直接使用专业名称作为节点标题
-                    key: majorId, // 使用专业ID作为节点的唯一标识
-                }));
 
-            return {
-                title: departmentName, // 学院名称作为节点标题
-                key: departmentId, // 学院ID作为节点的唯一标识
-                children: majors, // 将专业作为子节点
-            };
-        });
-    };
-    const treeData = (): DataNode[] => generateTreeData(data ? data.matchPermissionRule : [])
+
     const fetchData = async () =>
     {
         console.log("id is: ", id)
@@ -212,29 +218,7 @@ const Advanced: FC = () =>
         fetchData()
     }, [ id ])
 
-    const getDayText = (targetTime: string, color: string, type: string, noticeText: string) =>
-    {
-        const formatTime = dayjs(targetTime);
-        const now = dayjs();
 
-        const betweenTime = formatTime.diff(now, 'day');
-
-        const isBefore = now.isBefore(formatTime);
-        if (isBefore)
-        {
-            return (
-                <span style={{ color: color }}>{type}还有{betweenTime}天{noticeText}</span>
-            );
-        }
-    }
-    const isPermission = (data: API.MatchInfoProfileVO) =>
-    {
-
-        const permissionRule = (data.matchPermissionRule);
-        // @ts-ignore
-        return Object.keys(permissionRule).length !== 0;
-
-    }
     const getStatusText = (data: API.MatchInfoProfileVO) =>
     {
         const valueDict = [
@@ -300,111 +284,19 @@ const Advanced: FC = () =>
             )}
         </RouteContext.Consumer>
     );
-    const desc1 = (
-        <div className={classNames(styles.stepDescription)}>
-            <Fragment>
-                管理员正在抓紧筹备比赛中.......
-            </Fragment>
 
-        </div>
-    );
-    const makeStepText = (text: string, date: string) =>
-    {
-        return <div className={classNames(styles.stepDescription)}>
-            <Fragment>
-                <span>{text}</span>
-            </Fragment>
-            <div>{`计划时间: ${dayjs(date).format('YYYY-MM-DD')}`}</div>
-        </div>
-    }
 
     const [ tabStatus, seTabStatus ] = useState<AdvancedState>({
         operationKey: 'tab1',
         tabActiveKey: 'detail',
     });
 
-    const customDot = (
-        dot: React.ReactNode,
-        {
-            status,
-        }: {
-            status: string;
-        },
-    ) =>
-    {
-        const popoverContent = (
-            <div
-                style={{
-                    width: 160,
-                }}
-            >
-                吴加号
-                <span
-                    style={{
-                        float: 'right',
-                    }}
-                >
-          <Badge
-              status="default"
-              text={
-                  <span
-                      style={{
-                          color: 'rgba(0, 0, 0, 0.45)',
-                      }}
-                  >
-                未响应
-              </span>
-              }
-          />
-        </span>
-                <div
-                    style={{
-                        marginTop: 4,
-                    }}
-                >
-                    耗时：2小时25分钟
-                </div>
-            </div>
-        );
-        if (status === 'process')
-        {
-            return (
-                <Popover placement="topLeft" arrowPointAtCenter content={popoverContent}>
-                    <span>{dot}</span>
-                </Popover>
-            );
-        }
-        return dot;
-    };
 
-    const contentList = {
-        tab1: (
-            <Table
-                pagination={false}
-                loading={loading}
-                dataSource={data}
-                columns={columns}
-            />
-        ),
-        tab2: (
-            <Table
-                pagination={false}
-                loading={loading}
-                dataSource={data}
-                columns={columns}
-            />
-        ),
-        tab3: (
-            <Table
-                pagination={false}
-                loading={loading}
-                dataSource={data}
-                columns={columns}
-            />
-        ),
-    };
+
+
     const onTabChange = (tabActiveKey: string) =>
     {
+        console.log('tabActiveKey', tabActiveKey)
         seTabStatus({
             ...tabStatus,
             tabActiveKey,
@@ -417,6 +309,26 @@ const Advanced: FC = () =>
             operationKey: key as 'tab1',
         });
     };
+
+    const renderTab = () =>
+    {
+        if (tabStatus.tabActiveKey === 'detail')
+        {
+            return <DetailsContainer id={id} data={data} />
+        }
+        else if (tabStatus.tabActiveKey === "conversation")
+        {
+            return <ConversationContainer id={id} />
+        }
+        else if (tabStatus.tabActiveKey === "notice")
+        {
+            return <NoticeTab id={id} />
+        }
+        else if(tabStatus.tabActiveKey === "teamRecommend")
+        {
+            return <TeamRecommend id={id} />
+        }
+    }
 
     return (
         loading ? <Spin size={"large"}/> :
@@ -431,103 +343,27 @@ const Advanced: FC = () =>
                 tabList={[
                     {
                         key: 'detail',
-                        tab: '详情',
+                        tab: '竞赛信息',
                     },
                     {
-                        key: 'rule',
-                        tab: '规则',
+                        key: 'conversation',
+                        tab: '竞赛讨论',
                     },
+                    {
+                        key: "notice",
+                        tab: "竞赛通知"
+                    },
+                    {
+                        key: "teamRecommend",
+                        tab:"团队推荐"
+                    }
                 ]}
             >
                 <div className={styles.main}>
                     <GridContent>
-                        <Card
-                            title="比赛进度"
-                            style={{
-                                marginBottom: 24,
-                            }}
-                        >
-                            <RouteContext.Consumer>
-                                {({ isMobile }) => (
-                                    <Steps
-                                        direction={isMobile ? 'vertical' : 'horizontal'}
-                                        progressDot={customDot}
-                                        current={data?.matchStatus ? data.matchStatus : 0}
-                                    >
-                                        <Step title="报名准备中" description={desc1}/>
-                                        <Step title="比赛报名中"
-                                              description={makeStepText("比赛正在火热报名中", data.signUpStartTime)}/>
-                                        <Step title="报名已结束"
-                                              description={makeStepText("报名已结束！期待你的惊艳全场",
-                                                  data.signUpEndTime)}/>
-
-                                        <Step title="比赛进行中"
-                                              description={makeStepText("比赛正在激烈进行中", data.startTime)}/>
-                                        <Step title="比赛已结束"
-                                              description={makeStepText("比赛已结束！完结撒花", data.endTime)}/>
-                                    </Steps>
-                                )}
-                            </RouteContext.Consumer>
-                        </Card>
-
-                        <Card
-                            title="比赛介绍说明"
-                            style={{
-                                marginBottom: 24,
-                            }}
-                            bordered={false}
-                        >
-                            <Typography>
-                                <Title>比赛介绍</Title>
-                                <Paragraph>{data.matchDesc}</Paragraph>
-                                <Title>比赛规则说明</Title>
-                                <Paragraph>{data.matchRule}</Paragraph>
-                            </Typography>
-                        </Card>
-                        <Card
-                            title="比赛项目分组划分"
-                            style={{ marginBottom: 24 }}
-                            bordered={false}
-                        >
-                            <Table
-                                columns={groupDetailsColumns}
-                                dataSource={data.groupData}
-                                expandable={record => expandedRowRender(record)}
-                            />
-                        </Card>
-                        <Card
-                            title="比赛奖项设置"
-                            style={{
-                                marginBottom: 24,
-                            }}
-                            bordered={false}
-                        >
-                            <Table
-                                pagination={false}
-                                columns={awardDetailsColumns}
-                                dataSource={data.matchAward}
-                            />
-                        </Card>
-
-                        <>
-                            <Card title={"比赛参加学院权限规则"}
-                                  style={{
-                                      marginBottom: 24,
-                                  }}
-                                  bordered={false}
-                            >
-                                <div>
-                                    <Tree
-                                        showLine
-                                        autoExpandParent={true}
-                                        treeData={treeData()}
-                                    />
-                                </div>
-                            </Card>
-                        </>
-                        :
-                        <></>
-
+                        {
+                            renderTab()
+                        }
                     </GridContent>
                 </div>
             </PageContainer>

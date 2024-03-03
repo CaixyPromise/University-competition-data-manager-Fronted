@@ -3,6 +3,7 @@ import { createStyles } from 'antd-style';
 const useStyles = createStyles(({ token }) => {
   return {
     filterCardList: {
+
       marginBottom: '-24px',
       '.ant-card-meta-content': { marginTop: '0' },
       '.ant-card-meta-avatar': { fontSize: '0' },
@@ -10,7 +11,7 @@ const useStyles = createStyles(({ token }) => {
     },
     cardInfo: {
       marginTop: '16px',
-      marginLeft: '40px',
+      marginLeft: '5px',
       zoom: '1',
       '&::before, &::after': { display: 'table', content: "' '" },
       '&::after': {

@@ -1,13 +1,13 @@
 import {LikeOutlined, LoadingOutlined, MessageOutlined, StarOutlined} from '@ant-design/icons';
-import {Button, Card, Col, Form, List, message, Row, Select, Tag} from 'antd';
+import {Button, Card, Col, Form, List, message, Row, Select} from 'antd';
 import {DefaultOptionType} from 'antd/es/select';
 import type {FC} from 'react';
 import React, {useEffect, useMemo, useState} from 'react';
-import ArticleListContent from './components/ArticleListContent';
+import ListContent from './components/ArticleListContent';
 import StandardFormRow from './components/StandardFormRow';
 import TagSelect from './components/TagSelect';
 import useStyles from './style.style';
-import {listTeamsByPageUsingGet} from "@/services/teamService/teamController";
+import {listTeamsByPageUsingGET} from "@/services/teamService/teamController";
 import PrettyTag from "@/components/PrettyTag";
 
 const FormItem = Form.Item;
@@ -16,6 +16,7 @@ const pageSize = 5;
 
 const Index: FC = () =>
 {
+
     const [ form ] = Form.useForm();
 
     const { styles } = useStyles();
@@ -27,7 +28,7 @@ const Index: FC = () =>
         setLoading(true);
         try
         {
-            const response = await listTeamsByPageUsingGet({
+            const response = await listTeamsByPageUsingGET({
                 pageSize: pageSize,
                 current: currentPage
             });
@@ -264,11 +265,6 @@ const Index: FC = () =>
                     renderItem={(item) => (
                         <List.Item
                             key={item.id}
-                            // actions={[
-                            //     <IconText key="star" type="star-o" text={item.star}/>,
-                            //     <IconText key="like" type="like-o" text={item.like}/>,
-                            //     <IconText key="message" type="message" text={item.message}/>,
-                            // ]}
                             extra={<div className={styles.listItemExtra}/>}
                         >
                             <List.Item.Meta
@@ -291,7 +287,7 @@ const Index: FC = () =>
                   </span>
                                 }
                             />
-                            <ArticleListContent data={{ content: item.description, createAt: item.createTime }}/>
+                            <ListContent data={{ content: item.description, createAt: item.createTime }}/>
                         </List.Item>
                     )}
                 />

@@ -138,9 +138,12 @@ const Projects: FC = () =>
                                 {getDayText(item)}
                             </div>
                             <Space size={[ 0, 8 ]} wrap>
-                                {item.matchTags?.map((tags) =>
+                                {item.matchTags?.map((tags, index) =>
                                 {
-                                    return <PrettyTag content={tags} />
+                                    return <PrettyTag
+                                                key={`${index}-${tags}`}
+                                                content={tags}
+                                            />
                                 })}
                             </Space>
                         </Card>

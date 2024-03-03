@@ -1,4 +1,11 @@
-export type tabKeyType = 'articles' | 'applications' | 'projects';
+import React from "react";
+
+export interface TabStatusType
+{
+  key: string;
+  tab: React.ReactNode;
+  // component?: React.ReactNode;
+}
 export interface TagType {
   key: string;
   label: string;

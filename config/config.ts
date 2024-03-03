@@ -134,22 +134,27 @@ export default defineConfig({
       schemaPath: join(__dirname, 'oneapi.json'),
       mock: false,
     },
-    {
-      requestLibPath: "import { request } from '@umijs/max'",
-      schemaPath: 'http://localhost:8101/api/user/v2/api-docs',
-      projectName: 'userService',
-
-    },
+    // {
+    //   requestLibPath: "import { request } from '@umijs/max'",
+    //   schemaPath: 'http://localhost:8101/api/user/v2/api-docs',
+    //   projectName: 'userService',
+    //
+    // },
     {
       requestLibPath: "import { request } from '@umijs/max'",
       schemaPath: 'http://localhost:8101/api/competition/v2/api-docs',
       projectName: 'matchService',
     },
-    {
-      requestLibPath: "import { request } from '@umijs/max'",
-      schemaPath: "http://localhost:8101/api/team/v2/api-docs",
-      projectName: 'teamService',
-    }
+    // {
+    //   requestLibPath: "import { request } from '@umijs/max'",
+    //   schemaPath: "http://localhost:8101/api/team/v2/api-docs",
+    //   projectName: 'teamService',
+    // },
+    // {
+    //   requestLibPath: "import { request } from '@umijs/max'",
+    //   schemaPath: "http://localhost:8101/api/content/v2/api-docs",
+    //   projectName: 'contentService',
+    // }
 
   ],
   mfsu: {

@@ -7,6 +7,7 @@ import * as competitionInfoController from './competitionInfoController';
 import * as competitionInnerController from './competitionInnerController';
 import * as departmentController from './departmentController';
 import * as majorInfoController from './majorInfoController';
+import * as registrationController from './registrationController';
 import * as userController from './userController';
 import * as userServiceInnerController from './userServiceInnerController';
 export default {
@@ -17,4 +18,5 @@ export default {
   competitionInnerController,
   userServiceInnerController,
   majorInfoController,
+  registrationController,
 };

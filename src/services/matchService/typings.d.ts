@@ -1,4 +1,23 @@
 declare namespace API {
+  type AboutMeVO = {
+    userAccount?: string;
+    userAvatar?: string;
+    userDepartment?: string;
+    userEmail?: string;
+    userId?: number;
+    userMajor?: string;
+    userName?: string;
+    userProfile?: string;
+    userSex?: string;
+    userTags?: string[];
+  };
+
+  type BaseResponseAboutMeVO_ = {
+    code?: number;
+    data?: AboutMeVO;
+    message?: string;
+  };
+
   type BaseResponseBoolean_ = {
     code?: number;
     data?: boolean;
@@ -20,6 +39,12 @@ declare namespace API {
   type BaseResponseListDepartmentWithMajorsVO_ = {
     code?: number;
     data?: DepartmentWithMajorsVO[];
+    message?: string;
+  };
+
+  type BaseResponseListMyCreateRaceVO_ = {
+    code?: number;
+    data?: MyCreateRaceVO[];
     message?: string;
   };
 
@@ -162,6 +187,11 @@ declare namespace API {
     majors?: MajorInnerInfo[];
   };
 
+  type getByAccountUsingGET1Params = {
+    /** userId */
+    userId: string;
+  };
+
   type getByIdUsingGET1Params = {
     /** userId */
     userId: number;
@@ -223,6 +253,11 @@ declare namespace API {
 
   type HashMapStringString_2 = true;
 
+  type isExistByIdUsingGET1Params = {
+    /** matchId */
+    matchId: number;
+  };
+
   type listByIdsUsingGET1Params = {
     /** idList */
     idList: number[];
@@ -231,8 +266,6 @@ declare namespace API {
   type LoginUserVO = {
     userAccount?: string;
     userAvatar?: string;
-    userDepartment?: number;
-    userMajor?: number;
     userName?: string;
     userProfile?: string;
     userRole?: string;
@@ -473,6 +506,17 @@ declare namespace API {
     viewName?: string;
   };
 
+  type MyCreateRaceVO = {
+    hasRegistrationNum?: number;
+    id?: number;
+    matchName?: string;
+    matchStatus?: number;
+    signUpEndTime?: string;
+    signUpStartTime?: string;
+    startTime?: string;
+    endTime?: string;
+  };
+
   type Option = {
     children?: Option[];
     key?: string;
@@ -563,9 +607,15 @@ declare namespace API {
     total?: number;
   };
 
+  type RegistrationRaceRequest = {
+    raceId?: number;
+    teamId?: number;
+  };
+
   type SearchUserVO = {
     userAccount?: string;
     userDepartment?: string;
+    userId?: number;
     userMajor?: string;
     userName?: string;
   };
@@ -586,6 +636,7 @@ declare namespace API {
     userProfile?: string;
     userRole?: string;
     userRoleLevel?: number;
+    userSex?: number;
     userTags?: string;
   };
 
@@ -674,6 +725,7 @@ declare namespace API {
     userAccount?: string;
     userDepartment?: string;
     userEmail?: string;
+    userId?: number;
     userMajor?: string;
     userName?: string;
   };

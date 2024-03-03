@@ -18,7 +18,7 @@ import {getRegistrationInfoUsingPOST} from "@/services/matchService/competitionI
 import {UserOutlined} from "@ant-design/icons";
 import {SearchUserInput, UserValue} from "@/components/SearchUserInput";
 import {searchUserByUserNameAndAccountUsingPOST} from "@/services/userService/userController";
-import {addTeamUsingPost} from "@/services/teamService/teamController";
+import {addTeamUsingPOST} from "@/services/teamService/teamController";
 
 const StepDescriptions: React.FC<{
     stepData: StepDataType;
@@ -241,7 +241,7 @@ const StepForm: React.FC<Record<string, any>> = () =>
                 {
                     result.push({
                         label: `${item.userName}/${item.userAccount}/${item.userDepartment}/${item.userMajor}`,
-                        value: item.userAccount
+                        value: item.userId
                     })
                 })
                 return result;
@@ -541,7 +541,7 @@ const StepForm: React.FC<Record<string, any>> = () =>
                                             console.log(statusCode);
                                             try
                                             {
-                                                const { data, code } = await addTeamUsingPost({
+                                                const { data, code } = await addTeamUsingPOST({
                                                     matchCategoryId: stepData.matchCategoryId,
                                                     matchEventId: stepData.matchEventId,
                                                     matchId: stepRuleData.id,

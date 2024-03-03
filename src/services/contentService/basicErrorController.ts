@@ -2,41 +2,41 @@
 /* eslint-disable */
 import { request } from '@umijs/max';
 
-/** error GET /api/team/error */
+/** error GET /api/content/error */
 export async function errorUsingGET(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/team/error', {
+  return request<Record<string, any>>('/api/content/error', {
     method: 'GET',
     ...(options || {}),
   });
 }
 
-/** error PUT /api/team/error */
+/** error PUT /api/content/error */
 export async function errorUsingPut(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/team/error', {
+  return request<Record<string, any>>('/api/content/error', {
     method: 'PUT',
     ...(options || {}),
   });
 }
 
-/** error POST /api/team/error */
+/** error POST /api/content/error */
 export async function errorUsingPOST(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/team/error', {
+  return request<Record<string, any>>('/api/content/error', {
     method: 'POST',
     ...(options || {}),
   });
 }
 
-/** error DELETE /api/team/error */
+/** error DELETE /api/content/error */
 export async function errorUsingDelete(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/team/error', {
+  return request<Record<string, any>>('/api/content/error', {
     method: 'DELETE',
     ...(options || {}),
   });
 }
 
-/** error PATCH /api/team/error */
+/** error PATCH /api/content/error */
 export async function errorUsingPatch(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/team/error', {
+  return request<Record<string, any>>('/api/content/error', {
     method: 'PATCH',
     ...(options || {}),
   });

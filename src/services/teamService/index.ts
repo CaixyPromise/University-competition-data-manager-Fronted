@@ -4,7 +4,9 @@
 // API 唯一标识：
 import * as basicErrorController from './basicErrorController';
 import * as teamController from './teamController';
+import * as teamInnerController from './teamInnerController';
 export default {
   basicErrorController,
+  teamInnerController,
   teamController,
 };
