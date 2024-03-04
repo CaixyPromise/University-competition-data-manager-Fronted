@@ -51,10 +51,6 @@ const useStyles = createStyles(({ token }) => {
     };
 });
 
-interface ReplyCommentDict
-{
-    [parentId: string]: API.CommentVO
-}
 
 const Index: React.FC<TeamRecommendProps> = ({id}) =>
 {
@@ -218,7 +214,7 @@ const Index: React.FC<TeamRecommendProps> = ({id}) =>
                             </List.Item>
                         )}
                     />:
-                    <Empty description={'暂无推荐队伍，快去看看大厅里看看把~'} />
+                    <Empty description={<span>暂无推荐队伍，快去看看<a href={"/team/index"}>大厅</a>里看看吧~</span>} />
             }
         </Card>
     </>

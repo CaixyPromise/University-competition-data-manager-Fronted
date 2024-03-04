@@ -140,11 +140,11 @@ export default defineConfig({
     //   projectName: 'userService',
     //
     // },
-    {
-      requestLibPath: "import { request } from '@umijs/max'",
-      schemaPath: 'http://localhost:8101/api/competition/v2/api-docs',
-      projectName: 'matchService',
-    },
+    // {
+    //   requestLibPath: "import { request } from '@umijs/max'",
+    //   schemaPath: 'http://localhost:8101/api/competition/v2/api-docs',
+    //   projectName: 'matchService',
+    // },
     // {
     //   requestLibPath: "import { request } from '@umijs/max'",
     //   schemaPath: "http://localhost:8101/api/team/v2/api-docs",
@@ -155,7 +155,11 @@ export default defineConfig({
     //   schemaPath: "http://localhost:8101/api/content/v2/api-docs",
     //   projectName: 'contentService',
     // }
-
+    {
+      requestLibPath: "import { request } from '@umijs/max'",
+      schemaPath: 'http://localhost:8101/api/market/v2/api-docs',
+      projectName: 'marketService',
+    },
   ],
   mfsu: {
     strategy: 'normal',

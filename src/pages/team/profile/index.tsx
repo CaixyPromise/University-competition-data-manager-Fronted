@@ -207,6 +207,7 @@ const Advanced: FC = () =>
         }
         catch (e: any)
         {
+            history.push("/");
             message.error("请求失败!! 请检查网络或操作是否合法")
         }
         finally

@@ -8,7 +8,7 @@ export async function deleteMessageByIdUsingPOST(
   params: API.deleteMessageByIdUsingPOSTParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponseBoolean_>('/api/content/message/delete', {
+  return request<API.BaseResponseBoolean_>('/api/notice/message/delete', {
     method: 'POST',
     params: {
       ...params,
@@ -23,7 +23,7 @@ export async function getMessageInfoUsingGET(
   params: API.getMessageInfoUsingGETParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponsePageMessageVO_>('/api/content/message/get', {
+  return request<API.BaseResponsePageMessageVO_>('/api/notice/message/get', {
     method: 'GET',
     params: {
       ...params,

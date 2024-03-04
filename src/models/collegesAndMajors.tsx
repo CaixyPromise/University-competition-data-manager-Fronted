@@ -1,5 +1,6 @@
 import {getAllDepartmentAndMajorUsingGET} from "@/services/userService/majorInfoController";
 import {useEffect, useState} from "react";
+import LocalStorageUtils from "@/utils/LocalStorageUtils";
 
 const useCollegesAndMajors = () =>
 {
@@ -9,6 +10,13 @@ const useCollegesAndMajors = () =>
     {
         const fetchData = async () =>
         {
+            // 先查是否有湖安村
+            const getStrogeData = LocalStorageUtils.getItem("collegesAndMajors");
+            if (getStrogeData !== null)
+            {
+                setCollegesAndMajors(JSON.parse(getStrogeData));
+                return;
+            }
             const response = await getAllDepartmentAndMajorUsingGET();
             if (response.data)
             {
@@ -34,7 +42,8 @@ const useCollegesAndMajors = () =>
 
                     return acc;
                 }, {});
-
+                // 缓存到本地
+                LocalStorageUtils.setItem("collegesAndMajors", JSON.stringify(transformedData));
                 setCollegesAndMajors(transformedData);
             }
             else

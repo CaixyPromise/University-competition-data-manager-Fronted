@@ -11,6 +11,7 @@ import {useModel} from "@umijs/max";
 interface AnnounceTabContainerProp
 {
     id: string
+    canAdmin: boolean
 }
 
 const useStyles = createStyles(({ token }) =>
@@ -48,7 +49,7 @@ const useStyles = createStyles(({ token }) =>
 });
 
 
-const Index: React.FC<AnnounceTabContainerProp> = ({ id }) =>
+const Index: React.FC<AnnounceTabContainerProp> = ({ id,canAdmin }) =>
 {
     const { styles } = useStyles();
     const pageSize = 5;
@@ -58,9 +59,6 @@ const Index: React.FC<AnnounceTabContainerProp> = ({ id }) =>
     const [ commentText, setCommentText ] = useState<EditorState>(
         BraftEditor.createEditorState(null),
     );
-    const { initialState } = useModel('@@initialState');
-    const { currentUser } = initialState || {}
-    const canAdmin = (currentUser?.userRole === 'admin')
     const fetchData = async (currentPage: number) =>
     {
         setLoading(true);

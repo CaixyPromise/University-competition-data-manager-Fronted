@@ -22,7 +22,7 @@ import classNames from 'classnames';
 import type {FC} from 'react';
 import React, {Fragment, useEffect, useState} from 'react';
 import useStyles from './style.style';
-import {useParams} from "@@/exports";
+import {useModel, useParams} from "@@/exports";
 import {getMatchInfoUsingGET} from "@/services/matchService/competitionInfoController";
 import dayjs from "dayjs";
 import {awardDetailsColumns, expandedRowRender, groupDetailsColumns} from "@/pages/competition/profile/configs";
@@ -83,7 +83,9 @@ const Advanced: FC = () =>
     const [ loading, setLoading ] = useState<boolean>(true)
     const { Title, Paragraph } = Typography
     const { Step } = Steps;
-
+    const { initialState } = useModel('@@initialState');
+    const { currentUser } = initialState || {}
+    const canAdmin = (currentUser?.userRole === 'admin')
 
     const action = (
         <RouteContext.Consumer>
@@ -322,12 +324,40 @@ const Advanced: FC = () =>
         }
         else if (tabStatus.tabActiveKey === "notice")
         {
-            return <NoticeTab id={id} />
+            return <NoticeTab id={id} canAdmin={canAdmin}/>
         }
         else if(tabStatus.tabActiveKey === "teamRecommend")
         {
             return <TeamRecommend id={id} />
         }
+    }
+
+    const getTabList = () =>
+    {
+        return (
+            [
+                {
+                    key: 'detail',
+                    tab: '竞赛信息',
+                },
+                {
+                    key: 'conversation',
+                    tab: '竞赛讨论',
+                },
+                {
+                    key: "notice",
+                    tab: "竞赛通知"
+                },
+                {
+                    key: "teamRecommend",
+                    tab:"团队推荐"
+                },
+                canAdmin && {
+                    key: "registration",
+                    tab: "已报名团队信息"
+                }
+            ]
+        )
     }
 
     return (
@@ -340,24 +370,7 @@ const Advanced: FC = () =>
                 extraContent={extra}
                 tabActiveKey={tabStatus.tabActiveKey}
                 onTabChange={onTabChange}
-                tabList={[
-                    {
-                        key: 'detail',
-                        tab: '竞赛信息',
-                    },
-                    {
-                        key: 'conversation',
-                        tab: '竞赛讨论',
-                    },
-                    {
-                        key: "notice",
-                        tab: "竞赛通知"
-                    },
-                    {
-                        key: "teamRecommend",
-                        tab:"团队推荐"
-                    }
-                ]}
+                tabList={getTabList()}
             >
                 <div className={styles.main}>
                     <GridContent>

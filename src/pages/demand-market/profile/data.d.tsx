@@ -88,7 +88,7 @@ export const userInfoColumn: ProColumns<API.UserTeamWorkVO>[] = (handleAdjust, h
 ])
 
 
-export const userApplyColumn: ProColumns<API.TakerProfileVO>[] = (handleResove, handleReject) => ([
+export const userApplyColumn: ProColumns<API.UserTeamWorkVO>[] = (handleResove, handleReject) => ([
     {
         title: "学号",
         dataIndex: "userAccount",
@@ -113,11 +113,6 @@ export const userApplyColumn: ProColumns<API.TakerProfileVO>[] = (handleResove, 
         title: "邮箱",
         dataIndex: "userEmail",
         key: "userEmail"
-    },
-    {
-        title: "申请时间",
-        dataIndex: "takeTime",
-        key: "takeTime"
     },
     {
         title: '操作',

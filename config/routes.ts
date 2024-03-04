@@ -29,6 +29,12 @@ export default [
             }
         ]
     },
+    {path: "/demands", name:"需求广场", routes: [
+            {"path": "/demands", redirect: "/demands/index"},
+            {"path": "/demands/index", component: "./demand-market/List", name: "需求广场"},
+            {"path": "/demands/profile/:id", hideInMenu:true, component: "./demand-market/profile", name: "需求详情"}
+
+        ] },
     {
         path: '/admin',
         name: '管理页',
@@ -63,22 +69,6 @@ export default [
                 icon: 'smile',
                 path: '/account/settings',
                 component: './account/settings',
-            },
-        ],
-    },
-    // { name: '查询表格', icon: 'table', path: '/list', component: './TableList' },
-    {
-        path: '/profile',
-        name: '详情页',
-        icon: 'profile',
-        routes: [
-            { path: '/profile', redirect: '/profile/basic' },
-            { name: '基础详情页', icon: 'smile', path: '/profile/basic', component: './profile/basic' },
-            {
-                name: '高级详情页',
-                icon: 'smile',
-                path: '/profile/advanced',
-                component: './profile/advanced',
             },
         ],
     },

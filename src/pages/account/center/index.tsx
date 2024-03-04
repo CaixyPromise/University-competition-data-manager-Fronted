@@ -11,6 +11,7 @@ import {listMyCreateTeamsUsingGET, listMyJoinTeamsUsingGET} from "@/services/tea
 import TeamList from "@/pages/account/center/components/TeamList";
 import MyCreateRaceContainer from "@/pages/account/center/components/MyCreateRaceContainer";
 import Articles from "@/pages/account/center/components/Articles";
+import MyDemandContainer from "@/pages/account/center/components/MyDemandContainer";
 
 
 const operationTabList = ({ canAdmin, isTeacher }:
@@ -28,6 +29,7 @@ const operationTabList = ({ canAdmin, isTeacher }:
         }
     }
     tabLists.push(makeTabObject('message', '站内信',));
+    tabLists.push(makeTabObject("my-demand", "我的需求"))
     if (canAdmin) // 管理员
     {
         tabLists.push(makeTabObject("my-create", "我创建的比赛"))
@@ -231,6 +233,10 @@ const Center: React.FC = () =>
         else if (tabValue === "my-create")
         {
             return <MyCreateRaceContainer />
+        }
+        else if (tabValue === "my-demand")
+        {
+            return <MyDemandContainer />
         }
         return null;
     };
