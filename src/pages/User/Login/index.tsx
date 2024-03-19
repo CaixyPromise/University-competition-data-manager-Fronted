@@ -17,6 +17,7 @@ import React, {useState} from 'react';
 import {flushSync} from 'react-dom';
 import Settings from '../../../../config/defaultSettings';
 import {userLoginUsingPOST} from "@/services/userService/userController";
+import LogoIcon from "@/components/Icon/LogoIcon";
 
 const useStyles = createStyles(({ token }) =>
 {
@@ -115,6 +116,7 @@ const Login: React.FC = () =>
                 });
                 const urlParams = new URL(window.location.href).searchParams;
                 history.push(urlParams.get('redirect') || '/');
+                message.success(`登录成功！欢迎回来: ${msg.data.userName}`);
                 return;
             }
             console.log(msg);
@@ -147,13 +149,12 @@ const Login: React.FC = () =>
                         minWidth: 280,
                         maxWidth: '75vw',
                     }}
-                    logo={<img alt="logo" src="/logo.svg"/>}
-                    title="Ant Design"
-                    subTitle={'Ant Design 是西湖区最具影响力的 Web 设计规范'}
+                    logo={<LogoIcon />}
+                    title="竞赛信息管理系统"
+                    subTitle={'Powered By SpringBoot && React Ant Design'}
                     initialValues={{
                         autoLogin: true,
                     }}
-                    actions={[ '其他登录方式 :', <ActionIcons key="icons"/> ]}
                     onFinish={async (values) =>
                     {
                         await handleSubmit(values as API.LoginParams);
@@ -170,7 +171,7 @@ const Login: React.FC = () =>
                             },
                             {
                                 key: 'mobile',
-                                label: '手机号登录',
+                                label: '邮箱登录',
                             },
                         ]}
                     />
@@ -186,7 +187,7 @@ const Login: React.FC = () =>
                                     size: 'large',
                                     prefix: <UserOutlined/>,
                                 }}
-                                placeholder={'用户名: admin or user'}
+                                placeholder={'请输入学/工号'}
                                 rules={[
                                     {
                                         required: true,
@@ -200,7 +201,7 @@ const Login: React.FC = () =>
                                     size: 'large',
                                     prefix: <LockOutlined/>,
                                 }}
-                                placeholder={'密码: ant.design'}
+                                placeholder={'请输入密码'}
                                 rules={[
                                     {
                                         required: true,

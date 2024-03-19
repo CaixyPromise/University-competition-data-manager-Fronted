@@ -88,6 +88,48 @@ export const userInfoColumn: ProColumns<API.UserTeamWorkVO>[] = (handleAdjust, h
 ])
 
 
+
+export const teacherInfoColumn: ProColumns<API.UserTeamWorkVO>[] = (handleAdjust, handleRemove) => ([
+    {
+        title: "工号",
+        dataIndex: "userAccount",
+        key: "userAccount"
+    },
+    {
+        title: "姓名",
+        dataIndex: "userName",
+        key: "userName"
+    },
+    {
+        title: "专业",
+        dataIndex: "userMajor",
+        key: "userMajor"
+    },
+    {
+        title: "学院",
+        dataIndex: "userDepartment",
+        key: "userDepartment"
+    },
+    {
+        title: "邮箱",
+        dataIndex: "userEmail",
+        key: "userEmail"
+    },
+    {
+        title: '操作',
+        dataIndex: 'option',
+        valueType: 'option',
+        width: 200,
+        render: (_, record) => (
+            <Space size="middle">
+                <Typography.Link type="danger" onClick={() => handleRemove(record)}>
+                    移除成员
+                </Typography.Link>
+            </Space>
+        ),
+    },
+])
+
 export const userApplyColumn: ProColumns<API.TakerProfileVO>[] = (handleResove, handleReject) => ([
     {
         title: "学号",

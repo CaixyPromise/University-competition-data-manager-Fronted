@@ -10,21 +10,21 @@ const Footer: React.FC = () => {
       }}
       links={[
         {
-          key: 'Ant Design Pro',
-          title: 'Ant Design Pro',
-          href: 'https://pro.ant.design',
+          key: 'name',
+          title: 'CAIXYPROMISE',
+          href: '/',
           blankTarget: true,
         },
         {
           key: 'github',
           title: <GithubOutlined />,
-          href: 'https://github.com/ant-design/ant-design-pro',
+          href: 'https://github.com/CaixyPromise/University-competition-data-manager-Fronted',
           blankTarget: true,
         },
         {
           key: 'Ant Design',
-          title: 'Ant Design',
-          href: 'https://ant.design',
+          title: '竞赛信息管理平台',
+          href: '/',
           blankTarget: true,
         },
       ]}

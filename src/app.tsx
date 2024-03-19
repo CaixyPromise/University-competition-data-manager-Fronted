@@ -6,6 +6,8 @@ import {history, Link} from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import {errorConfig} from './requestConfig';
 import {getLoginUserUsingGET} from "@/services/userService/userController";
+import LogoIcon from "@/components/Icon/LogoIcon";
+import React from "react";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -36,6 +38,7 @@ export async function getInitialState(): Promise<InitialState>
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =>
 {
     return {
+        logo: () => <LogoIcon />,
         title: "CAIXYPROMISE",
         actionsRender: () => [ <Question key="doc"/> ],
         avatarProps: {
@@ -46,9 +49,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
                 return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
             },
         },
-        waterMarkProps: {
-            content: initialState?.currentUser?.userName,
-        },
+        // waterMarkProps: {
+        //     content: initialState?.currentUser?.userName,
+        // },
         footerRender: () => <Footer/>,
         onPageChange: () =>
         {

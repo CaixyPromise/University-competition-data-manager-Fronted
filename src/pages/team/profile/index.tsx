@@ -33,7 +33,7 @@ import {
     joinTeamUsingPOST
 } from "@/services/teamService/teamController";
 import PrettyTag from "@/components/PrettyTag";
-import {userApplyColumn, userInfoColumn} from "@/pages/team/profile/data.d";
+import {teacherInfoColumn, userApplyColumn, userInfoColumn} from "@/pages/team/profile/data.d";
 import {UNIMPLEMENTED} from "@/utils/functional";
 import {record} from "@umijs/utils/compiled/zod";
 import {signUpRaceUsingPOST} from "@/services/matchService/registrationController";
@@ -389,7 +389,7 @@ const Advanced: FC = () =>
                             {
                                 data.teacherList && data.teacherList?.length > 0 ?
                                     <Table<API.UserTeamWorkVO>
-                                        columns={userInfoColumn(UNIMPLEMENTED, UNIMPLEMENTED)}
+                                        columns={teacherInfoColumn(UNIMPLEMENTED, UNIMPLEMENTED)}
                                         dataSource={data.teacherList}/>
                                     :
                                     <Empty description="暂无指导老师"/>

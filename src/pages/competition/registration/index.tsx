@@ -112,7 +112,7 @@ const StepForm: React.FC<Record<string, any>> = () =>
     const navigate = useNavigate();
     const { id } = useParams();
 
-    const [ stepRuleData, setStepRuleData ] = useState<API.MatchRegistrationVO>({});
+    const [ raceSourceData, setRaceSourceData ] = useState<API.MatchRegistrationVO>({});
     const [ selectGroupType, setSelectGroupType ] = useState<{
         label?: string,
         value?: string
@@ -141,7 +141,7 @@ const StepForm: React.FC<Record<string, any>> = () =>
         const { data, code, status } = await getRegistrationInfoUsingPOST(id);
         if (code === 0 && data)
         {
-            setStepRuleData(data);
+            setRaceSourceData(data);
         }
         if (status !== undefined && status !== 200)
         {
@@ -278,7 +278,7 @@ const StepForm: React.FC<Record<string, any>> = () =>
         return 1;
     }
     return (
-        <PageContainer content="正在创建比赛队伍中...">
+        <PageContainer content={`正在创建比赛: ${id}-${raceSourceData.matchName} 队伍中...`}>
             <Card bordered={false}>
                 <StepsForm
                     current={current}
@@ -302,18 +302,15 @@ const StepForm: React.FC<Record<string, any>> = () =>
                         initialValues={stepData}
                         onFinish={async (values) =>
                         {
-                            console.log(values)
-                            console.log(stepRuleData.groupData)
-                            const resultIds = extractPermissionIds(stepRuleData.groupData, values);
-                            const { groupName, sportName } = findGroupAndEventNames(stepRuleData.groupData, values)
+                            const resultIds = extractPermissionIds(raceSourceData.groupData, values);
+                            const { groupName, sportName } = findGroupAndEventNames(raceSourceData.groupData, values)
                             setPermissionIds(resultIds)
-                            console.log("values.teamName: ", values.teamName)
                             setStepData(prevState =>
                             {
                                 return {
                                     ...prevState,
-                                    matchId: stepRuleData.id,
-                                    matchName: stepRuleData.matchName,
+                                    matchId: raceSourceData.id,
+                                    matchName: raceSourceData.matchName,
                                     matchEventId: values.eventId,
                                     matchCategoryId: values.groupId,
                                     matchGroupName: groupName,
@@ -332,7 +329,7 @@ const StepForm: React.FC<Record<string, any>> = () =>
                         />
                         <ProFormText disabled={true} label={"比赛名称"}
                                      fieldProps={{
-                                         value: stepRuleData.matchName
+                                         value: raceSourceData.matchName
                                      }}
                         />
                         <ProFormText label={"队伍名称"}
@@ -390,7 +387,7 @@ const StepForm: React.FC<Record<string, any>> = () =>
                                 setSportSelectAble(false);
                                 formRef.current?.setFieldsValue({ eventId: undefined });
                             }}
-                            options={stepRuleData.groupData?.map(item => ({
+                            options={raceSourceData.groupData?.map(item => ({
                                 label: item.parentGroupName, // 显示在下拉菜单中的选项文本
                                 value: item.id, // 选项的实际值
                             }))}
@@ -401,7 +398,7 @@ const StepForm: React.FC<Record<string, any>> = () =>
                             disabled={sportSelectAble}
                             rules={[ { required: true, message: '请选择报名的小项' } ]}
                             options={
-                                stepRuleData.groupData?.find(item => item.id === selectGroupType.value)?.children?.map(
+                                raceSourceData.groupData?.find(item => item.id === selectGroupType.value)?.children?.map(
                                     subItem => ({
                                         label: subItem.parentGroupName, // 这里假设小项也有parentGroupName属性
                                         value: subItem.id, // 小项的ID
@@ -412,7 +409,7 @@ const StepForm: React.FC<Record<string, any>> = () =>
 
 
                     <StepsForm.StepForm
-                        title="填写队伍信息"
+                        title="填写队伍配置"
                         onFinish={async (values: StepDataTypeTwo) =>
                         {
                             setStepData(prevState =>
@@ -436,9 +433,9 @@ const StepForm: React.FC<Record<string, any>> = () =>
                         <ProFormDigit
                             label={`设置队伍人数`}
                             name="teamSize"
-                            tooltip={`最多为${stepRuleData.maxTeamSize}, 最少为${stepRuleData.minTeamSize}`}
-                            min={stepRuleData.minTeamSize}
-                            max={stepRuleData.maxTeamSize}
+                            tooltip={`最多为${raceSourceData.maxTeamSize}, 最少为${raceSourceData.minTeamSize}`}
+                            min={raceSourceData.minTeamSize}
+                            max={raceSourceData.maxTeamSize}
                             required={true}
                             rules={[
                                 {
@@ -448,15 +445,15 @@ const StepForm: React.FC<Record<string, any>> = () =>
                                 {
                                     validator: async (_, value) =>
                                     {
-                                        if (value < stepRuleData.minTeamSize)
+                                        if (value < raceSourceData.minTeamSize)
                                         {
                                             return Promise.reject(
-                                                new Error(`队伍人数不能少于${stepRuleData.minTeamSize}`));
+                                                new Error(`队伍人数不能少于${raceSourceData.minTeamSize}`));
                                         }
-                                        if (value > stepRuleData.maxTeamSize)
+                                        if (value > raceSourceData.maxTeamSize)
                                         {
                                             return Promise.reject(
-                                                new Error(`队伍人数不能多于${stepRuleData.maxTeamSize}`));
+                                                new Error(`队伍人数不能多于${raceSourceData.maxTeamSize}`));
                                         }
                                     },
                                 },
@@ -513,23 +510,23 @@ const StepForm: React.FC<Record<string, any>> = () =>
                             </Space>
                         }
                         <ProForm.Item label={"请输入队员信息"}
-                                      tooltip={`请输入队员信息，默认创建人为队长, 队员人数最多为: ${stepRuleData.maxTeamSize}`}>
+                                      tooltip={`请输入队员信息，默认创建人为队长, 队员人数最多为: ${raceSourceData.maxTeamSize}`}>
                             <SearchUserInput
                                 placeholder={"请输入要查找的用户信息: 学号/姓名"}
                                 fetchOptions={(text) => fetchUserList(text, "student")}
                                 value={searchStudentUserValue}
                                 setValue={setSearchStudentUserValue}
-                                maxCount={stepRuleData.maxTeamSize as number}
+                                maxCount={raceSourceData.maxTeamSize as number}
                             />
                         </ProForm.Item>
-                        <ProForm.Item label={"请输入队员信息"}
-                                      tooltip={`请输入队伍指导老师信息，默认第一位为第一指导老师, 指导老师人数最多为: ${stepRuleData.maxTeacherSize}`}>
+                        <ProForm.Item label={"请输入指导老师信息"}
+                                      tooltip={`请输入队伍指导老师信息，默认第一位为第一指导老师, 指导老师人数最多为: ${raceSourceData.maxTeacherSize}`}>
                             <SearchUserInput
                                 placeholder={"请输入要查找的指导老师信息: 工号/姓名"}
                                 fetchOptions={(text) => fetchUserList(text, "admin")}
                                 value={searchTeacherUserValue}
                                 setValue={setSearchTeacherUserValue}
-                                maxCount={stepRuleData.maxTeacherSize as number}
+                                maxCount={raceSourceData.maxTeacherSize as number}
                             />
                         </ProForm.Item>
                     </StepsForm.StepForm>
@@ -544,14 +541,14 @@ const StepForm: React.FC<Record<string, any>> = () =>
                                                 const { data, code } = await addTeamUsingPOST({
                                                     matchCategoryId: stepData.matchCategoryId,
                                                     matchEventId: stepData.matchEventId,
-                                                    matchId: stepRuleData.id,
+                                                    matchId: raceSourceData.id,
                                                     teammates: stepData.teammates?.map(item => item.value),
                                                     teamDescription: stepData.teamDescription,
                                                     teamPassword: stepData.teamPassword,
                                                     teamStatus: statusCode,
                                                     teamName: stepData.teamName,
                                                     teachers: stepData.teachers?.map(item => item.value),
-                                                    teamMaxSize: stepRuleData.maxTeamSize,
+                                                    teamMaxSize: raceSourceData.maxTeamSize,
                                                 })
                                                 if (code === 0 && data)
                                                 {
@@ -598,10 +595,10 @@ const StepForm: React.FC<Record<string, any>> = () =>
                     <ul>
 
                         <li>1. 团队队员(包括队长)最大人数为<span
-                            style={{ color: "red" }}>{stepRuleData.maxTeamSize}</span>人,
-                            最少为<span style={{ color: "red" }}>{stepRuleData.minTeamSize}</span>人<br/></li>
-                        <li>2. 团队指导老师最大人数为<span style={{ color: "red" }}>{stepRuleData.maxTeacherSize}</span>人,
-                            最少为<span style={{ color: "red" }}>{stepRuleData.minTeacherSize}</span>人,
+                            style={{ color: "red" }}>{raceSourceData.maxTeamSize}</span>人,
+                            最少为<span style={{ color: "red" }}>{raceSourceData.minTeamSize}</span>人<br/></li>
+                        <li>2. 团队指导老师最大人数为<span style={{ color: "red" }}>{raceSourceData.maxTeacherSize}</span>人,
+                            最少为<span style={{ color: "red" }}>{raceSourceData.minTeacherSize}</span>人,
                         </li>
                         <li>3. 如果人数不足时将无法报名成功，队伍会进入
                             <span style={{ color: "red" }}>待定</span>状态。

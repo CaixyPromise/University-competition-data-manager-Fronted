@@ -560,7 +560,7 @@ const MatchForm: React.FC = () =>
                 </Card>
 
                 {/* 奖品设置 */}
-                <Card title="奖品设置" bordered={false} className={styles.card}>
+                <Card title="奖项设置" bordered={false} className={styles.card}>
                     <EditableProTable<AddMatchTypes.AwardItemType>
                         rowKey="id"
                         columns={awardColumns}
