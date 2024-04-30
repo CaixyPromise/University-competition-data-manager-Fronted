@@ -4,37 +4,21 @@ export default [
         layout: false,
         routes: [ { name: '登录', path: '/user/login', component: './User/Login' } ],
     },
-    { path: '/welcome', name: '欢迎', icon: 'smile', component: './Welcome' },
+    // { path: '/welcome', name: '欢迎', icon: 'smile', component: './Welcome' },
+    { path: '/team/index', component: './team/teamList', name: '团队中心' },
+    { path: '/team/profile/:id', component: "./team/profile", name: '团队详情', hideInMenu: true },
+    { path: "/competition/index", component: "./competition/Index", name: "竞赛广场" },
     {
-        path: "/team",
-        name: "团队中心",
-        routes: [ { path: '/team', redirect: '/team/index' },
-            { path: '/team/index', component: './team/teamList', name: '团队中心' },
-            { path: '/team/profile/:id', component: "./team/profile", name: '团队详情', hideInMenu: true }
-        ]
+        path: "/competition/profile/:id", hideInMenu: true, component: "./competition/profile",
+        name: "竞赛详情",
     },
     {
-        path: "/competition",
-        name: "信息广场",
-        routes: [
-            { path: "/competition", redirect: "/competition/index" },
-            { path: "/competition/index", component: "./competition/Index", name: "竞赛广场" },
-            {
-                path: "/competition/profile/:id", hideInMenu: true, component: "./competition/profile",
-                name: "竞赛详情",
-            },
-            {
-                path: "/competition/register/:id", hideInMenu: true, component: "./competition/registration",
-                name: "竞赛报名",
-            }
-        ]
+        path: "/competition/register/:id", hideInMenu: true, component: "./competition/registration",
+        name: "竞赛报名",
     },
-    {path: "/demands", name:"需求广场", routes: [
-            {"path": "/demands", redirect: "/demands/index"},
-            {"path": "/demands/index", component: "./demand-market/List", name: "需求广场"},
-            {"path": "/demands/profile/:id", hideInMenu:true, component: "./demand-market/profile", name: "需求详情"}
-
-        ] },
+    { "path": "/demands/index", component: "./demand-market/List", name: "需求广场" },
+    { "path": "/demands/profile/:id", hideInMenu: true, component: "./demand-market/profile", name: "需求详情" },
+    {path: "/demand/create", hideInMenu: true, component: "./demand-market/add", name: "发布需求"},
     {
         path: '/admin',
         name: '管理页',
@@ -72,6 +56,6 @@ export default [
             },
         ],
     },
-    { path: '/', redirect: '/welcome' },
+    { path: '/', redirect: '/competition/index' },
     { path: '*', layout: false, component: './404' },
 ];

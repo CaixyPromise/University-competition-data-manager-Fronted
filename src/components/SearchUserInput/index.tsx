@@ -85,7 +85,7 @@ export const SearchUserInput: React.FC<SearchUserInputProps> = ({
 {
     return (
         <DebounceSelect
-            mode={"multiple"}
+            mode={mode ?? "multiple"}
             value={value}
             placeholder={placeholder ?? "请输入需要查找的用户信息"}
             fetchOptions={fetchOptions}

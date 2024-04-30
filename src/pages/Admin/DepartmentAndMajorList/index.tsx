@@ -71,7 +71,7 @@ const DepartmentAndMajorListPage: React.FC = () =>
         return <ProTable
             columns={subMajorColumns({
                 setCurrentRow: setMajorCurrentRow,
-                handleDelete: handleDeleteMajor,
+                handleFunction: handleDeleteMajor,
                 setUpdateModalVisible
             })}
             headerTitle={false}
@@ -138,7 +138,7 @@ const DepartmentAndMajorListPage: React.FC = () =>
                     };
                 }}
                 columns={DepartmentColumns(
-                    { setCurrentRow, setUpdateModalVisible, handleDelete: handleDeleteDepartment })}
+                    { setCurrentRow, setUpdateModalVisible, handleFunction: handleDeleteDepartment })}
                 expandable={{ expandedRowRender }}
             />
             <CreateModal

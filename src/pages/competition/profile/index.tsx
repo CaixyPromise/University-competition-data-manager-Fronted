@@ -1,6 +1,6 @@
 import {DownOutlined, EllipsisOutlined,} from '@ant-design/icons';
 import {GridContent, PageContainer, RouteContext} from '@ant-design/pro-components';
-import {history} from '@umijs/max';
+import {history, useLocation} from '@umijs/max';
 import {
     Badge,
     Button,
@@ -32,6 +32,9 @@ import DetailsContainer from "@/pages/competition/profile/components/DetailsCont
 import ConversationContainer from "@/pages/competition/profile/components/ConversationContainer";
 import NoticeTab from "@/pages/competition/profile/components/NoticeTab";
 import TeamRecommend from "@/pages/competition/profile/components/TeamRecommend";
+import RegistrationContainer from "@/pages/competition/profile/components/RegistrationContainer";
+import {copyTextToClipboard, sendEmail} from "@/utils/functional";
+import {InviteRace} from "@/enums/MessageTemplate";
 
 const ButtonGroup = Button.Group;
 
@@ -86,14 +89,15 @@ const Advanced: FC = () =>
     const { initialState } = useModel('@@initialState');
     const { currentUser } = initialState || {}
     const canAdmin = (currentUser?.userRole === 'admin')
-
+    const location = useLocation();
+    console.log("location: ", location);
     const action = (
         <RouteContext.Consumer>
             {({ isMobile }) =>
             {
                 if (isMobile)
                 {
-                    return (
+                        return (
                         <Dropdown.Button
                             type="primary"
                             icon={<DownOutlined/>}
@@ -105,7 +109,7 @@ const Advanced: FC = () =>
                                     },
                                     {
                                         key: '2',
-                                        label: '操作二',
+                                        label: '分享链接',
                                     },
                                     {
                                         key: '3',
@@ -122,31 +126,34 @@ const Advanced: FC = () =>
                 return (
                     <Space>
                         <ButtonGroup>
-                            <Button>联系负责人</Button>
-                            <Button>操作二</Button>
-                            <Dropdown
-                                menu={{
-                                    items: [
-                                        {
-                                            key: '1',
-                                            label: '选项一',
-                                        },
-                                        {
-                                            key: '2',
-                                            label: '选项二',
-                                        },
-                                        {
-                                            key: '3',
-                                            label: '选项三',
-                                        },
-                                    ],
-                                }}
-                                placement="bottomRight"
-                            >
-                                <Button>
-                                    <EllipsisOutlined/>
-                                </Button>
-                            </Dropdown>
+                            <Button onClick={() => sendEmail(data.createUserInfo?.userEmail, `${data.matchName}-比赛咨询`)}>联系负责人</Button>
+                            <Button onClick={async () => {
+                                await copyTextToClipboard(InviteRace(data.id))
+                                message.success('复制成功，快去分享给你的好友吧！')
+                            }}>分享链接</Button>
+                            {/*<Dropdown*/}
+                            {/*    menu={{*/}
+                            {/*        items: [*/}
+                            {/*            {*/}
+                            {/*                key: '1',*/}
+                            {/*                label: '选项一',*/}
+                            {/*            },*/}
+                            {/*            {*/}
+                            {/*                key: '2',*/}
+                            {/*                label: '选项二',*/}
+                            {/*            },*/}
+                            {/*            {*/}
+                            {/*                key: '3',*/}
+                            {/*                label: '选项三',*/}
+                            {/*            },*/}
+                            {/*        ],*/}
+                            {/*    }}*/}
+                            {/*    placement="bottomRight"*/}
+                            {/*>*/}
+                            {/*    <Button>*/}
+                            {/*        <EllipsisOutlined/>*/}
+                            {/*    </Button>*/}
+                            {/*</Dropdown>*/}
                         </ButtonGroup>
                         <Button type="primary" onClick={()=>
                         {
@@ -329,6 +336,10 @@ const Advanced: FC = () =>
         else if(tabStatus.tabActiveKey === "teamRecommend")
         {
             return <TeamRecommend id={id} />
+        }
+        else if (tabStatus.tabActiveKey === "registration")
+        {
+            return <RegistrationContainer id={id} />
         }
     }
 

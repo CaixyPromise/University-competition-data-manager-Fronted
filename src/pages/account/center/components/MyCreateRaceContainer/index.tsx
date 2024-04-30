@@ -3,6 +3,9 @@ import {Card, ConfigProvider, Empty, List, message, Spin, Statistic, Tooltip} fr
 import React, {useEffect, useState} from 'react';
 import useStyles from './index.style';
 import {getMyCreateRaceByRequestUsingGET} from "@/services/matchService/competitionInfoController";
+import {history} from "@@/core/history";
+import {InviteRace} from "@/enums/MessageTemplate";
+import {copyTextToClipboard} from "@/utils/functional";
 
 const Container: React.FC = () =>
 {
@@ -150,13 +153,15 @@ const Container: React.FC = () =>
                                 }}
                                 actions={[
                                     <Tooltip key="look" title="查看">
-                                        <EyeOutlined />
+                                        <EyeOutlined onClick={()=> history.push(`/competition/profile/${item.id}`)} />
                                     </Tooltip>,
-                                    <Tooltip title="编辑" key="edit">
-                                        <EditOutlined/>
-                                    </Tooltip>,
-                                    <Tooltip title="分享" key="share">
-                                        <ShareAltOutlined/>
+                                    // <Tooltip title="编辑" key="edit">
+                                    //     <EditOutlined/>
+                                    // </Tooltip>,
+                                    <Tooltip title="分享" key="share" >
+                                        <ShareAltOutlined onClick={async () => {
+                                            await copyTextToClipboard(InviteRace(item.id))
+                                        }}/>
                                     </Tooltip>,
                                 ]}
                             >

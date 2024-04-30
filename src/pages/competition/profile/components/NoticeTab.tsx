@@ -73,9 +73,9 @@ const Index: React.FC<AnnounceTabContainerProp> = ({ id,canAdmin }) =>
             {
                 message.success("请求数据成功");
                 const newRecords = response.data.records;
+                console.log("typeof newRecords", typeof newRecords);
                 // 数据清洗：这里可以添加更多的数据清洗逻辑
-
-                setData(newRecords);
+                setData(newRecords || [])
             }
             else
             {

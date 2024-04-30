@@ -1,5 +1,6 @@
 declare namespace API {
   type AboutMeVO = {
+    balance?: number;
     userAccount?: string;
     userAvatar?: string;
     userDepartment?: string;
@@ -157,47 +158,52 @@ declare namespace API {
     majors?: MajorInnerInfo[];
   };
 
-  type getByAccountUsingGET1Params = {
+  type getByAccountUsingGETParams = {
     /** userId */
     userId: string;
   };
 
-  type getByIdUsingGET1Params = {
+  type getByIdUsingGETParams = {
     /** userId */
     userId: number;
   };
 
-  type getDepartmentInfoVOByIdUsingGET1Params = {
+  type getDepartmentInfoVOByIdUsingGETParams = {
     /** id */
     id: number;
   };
 
-  type getMajorInfoVOByIdUsingGET1Params = {
+  type getMajorInfoVOByIdUsingGETParams = {
     /** id */
     id?: number;
   };
 
-  type getMajorUnderDepartmentUsingGET1Params = {
+  type getMajorUnderDepartmentUsingGETParams = {
     /** departmentId */
     departmentId: number;
   };
 
-  type getUserByIdUsingGET1Params = {
+  type getUserByIdUsingGETParams = {
     /** id */
     id?: number;
   };
 
-  type getUserVOByIdUsingGET1Params = {
+  type getUserVOByIdUsingGETParams = {
     /** id */
     id?: number;
   };
 
-  type getUserWorkVOUsingGET1Params = {
+  type getUserWalletUsingGETParams = {
     /** userId */
     userId: number;
   };
 
-  type listByIdsUsingGET1Params = {
+  type getUserWorkVOUsingGETParams = {
+    /** userId */
+    userId: number;
+  };
+
+  type listByIdsUsingGETParams = {
     /** idList */
     idList: number[];
   };
@@ -205,8 +211,6 @@ declare namespace API {
   type LoginUserVO = {
     userAccount?: string;
     userAvatar?: string;
-    userDepartment?: number;
-    userMajor?: number;
     userName?: string;
     userProfile?: string;
     userRole?: string;
@@ -408,6 +412,11 @@ declare namespace API {
     userName?: string;
   };
 
+  type updateWalletUsingGETParams = {
+    /** add */
+    add: number;
+  };
+
   type User = {
     createTime?: string;
     id?: number;
@@ -430,9 +439,12 @@ declare namespace API {
 
   type UserAddRequest = {
     userAccount?: string;
-    userAvatar?: string;
-    userName?: string;
-    userRole?: string;
+    userDepartment?: number;
+    userEmail?: string;
+    userMajor?: number;
+    userPhone?: string;
+    userRole?: number;
+    userSex?: number;
   };
 
   type UserDepartmentMajorVO = {
@@ -477,7 +489,12 @@ declare namespace API {
   type UserRegisterRequest = {
     checkPassword?: string;
     userAccount?: string;
+    userDepartment?: number;
+    userEmail?: string;
+    userMajor?: number;
     userPassword?: string;
+    userPhone?: string;
+    userSex?: number;
   };
 
   type UserSearchRequest = {
@@ -507,6 +524,16 @@ declare namespace API {
     userName?: string;
     userProfile?: string;
     userRole?: string;
+  };
+
+  type UserWallet = {
+    balance?: number;
+    frozenBalance?: number;
+    id?: number;
+    isDelete?: number;
+    payPassword?: string;
+    updateTime?: string;
+    userId?: number;
   };
 
   type UserWorkVO = {

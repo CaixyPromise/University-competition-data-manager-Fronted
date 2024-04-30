@@ -3,7 +3,7 @@
 import { request } from '@umijs/max';
 
 /** getMatchInfo GET /api/competition/inner/get */
-export async function getMatchInfoUsingGET(
+export async function getMatchInfoUsingGET3(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getMatchInfoUsingGET3Params,
   options?: { [key: string]: any },
@@ -20,7 +20,7 @@ export async function getMatchInfoUsingGET(
 /** isExistById GET /api/competition/inner/get/exist */
 export async function isExistByIdUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.isExistByIdUsingGET1Params,
+  params: API.isExistByIdUsingGETParams,
   options?: { [key: string]: any },
 ) {
   return request<boolean>('/api/competition/inner/get/exist', {

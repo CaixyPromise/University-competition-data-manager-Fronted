@@ -23,9 +23,8 @@ declare namespace API {
     message?: string;
   };
 
-  type deleteDemandsByIdUsingPOSTParams = {
-    /** deleteRequest */
-    deleteRequest: string;
+  type DeleteRequest = {
+    id?: number;
   };
 
   type DemandAddRequest = {
@@ -33,6 +32,7 @@ declare namespace API {
     description?: string;
     reward?: number;
     title?: string;
+    userPassword?: string;
   };
 
   type DemandProfileVO = {
@@ -41,8 +41,8 @@ declare namespace API {
     deadline?: string;
     description?: string;
     id?: number;
+    isApplied?: boolean;
     isOwner?: boolean;
-    isApplied: boolean;
     reward?: number;
     status?: number;
     title?: string;
@@ -86,7 +86,7 @@ declare namespace API {
 
   type getDemandVOByIdUsingGETParams = {
     /** id */
-    id: string;
+    id: number;
   };
 
   type ModelAndView = {
@@ -196,8 +196,8 @@ declare namespace API {
   };
 
   type UpdateDemandStatusRequest = {
-    id?: string;
-    targetUser?: string;
+    id?: number;
+    targetUser?: number;
   };
 
   type UserWorkVO = {

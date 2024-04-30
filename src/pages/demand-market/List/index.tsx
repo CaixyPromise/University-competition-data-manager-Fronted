@@ -1,4 +1,12 @@
-import {LikeOutlined, LoadingOutlined, MessageOutlined, StarOutlined} from '@ant-design/icons';
+import {
+    CalendarOutlined,
+    DollarCircleOutlined,
+    InfoCircleOutlined,
+    LikeOutlined,
+    LoadingOutlined, LockOutlined,
+    MessageOutlined,
+    StarOutlined
+} from '@ant-design/icons';
 import {Button, Card, Col, Form, List, message, Row, Select} from 'antd';
 import {DefaultOptionType} from 'antd/es/select';
 import type {FC} from 'react';
@@ -7,7 +15,10 @@ import ListContent from './components/ArticleListContent';
 import StandardFormRow from './components/StandardFormRow';
 import TagSelect from './components/TagSelect';
 import useStyles from './style.style';
-import {listDemandVoByPageUsingPOST} from "@/services/marketService/marketController";
+import {addDemandsUsingPOST, listDemandVoByPageUsingPOST} from "@/services/marketService/marketController";
+import {history} from "@umijs/max";
+import {ModalForm, ProForm, ProFormDigit, ProFormText} from "@ant-design/pro-components";
+import ProFormDatePicker from "@ant-design/pro-form/es/components/DatePicker/DatePicker";
 
 const FormItem = Form.Item;
 
@@ -22,6 +33,7 @@ const Index: FC = () =>
     const [ data, setData ] = useState<API.DemandVO[]>([]);
     const [ loading, setLoading ] = useState<boolean>(false);
     const [ page, setPage ] = useState<number>(1);
+    const [ createModal, setCreateModal] = useState<boolean>(false);
     const fetchData = async (currentPage: number) =>
     {
         setLoading(true);
@@ -87,77 +99,6 @@ const Index: FC = () =>
     };
     const list = data || [];
 
-    const setOwner = () =>
-    {
-        form.setFieldsValue({
-            owner: [ 'wzj' ],
-        });
-    };
-
-    const owners = [
-        {
-            id: 'wzj',
-            name: '我自己',
-        },
-        {
-            id: 'wjh',
-            name: '吴家豪',
-        },
-        {
-            id: 'zxx',
-            name: '周星星',
-        },
-        {
-            id: 'zly',
-            name: '赵丽颖',
-        },
-        {
-            id: 'ym',
-            name: '姚明',
-        },
-    ];
-
-    const IconText: React.FC<{
-        type: string;
-        text: React.ReactNode;
-    }> = ({ type, text }) =>
-    {
-        switch (type)
-        {
-            case 'star-o':
-                return (
-                    <span>
-            <StarOutlined style={{ marginRight: 8 }}/>
-                        {text}
-          </span>
-                );
-            case 'like-o':
-                return (
-                    <span>
-            <LikeOutlined style={{ marginRight: 8 }}/>
-                        {text}
-          </span>
-                );
-            case 'message':
-                return (
-                    <span>
-            <MessageOutlined style={{ marginRight: 8 }}/>
-                        {text}
-          </span>
-                );
-            default:
-                return null;
-        }
-    };
-
-    const formItemLayout = {
-        wrapperCol: {
-            xs: { span: 24 },
-            sm: { span: 24 },
-            md: { span: 12 },
-        },
-    };
-
     const loadMoreDom = list.length > 0 && (
         <div style={{ textAlign: 'center', marginTop: 16 }}>
             <Button onClick={loadMore} style={{ paddingLeft: 48, paddingRight: 48 }}>
@@ -172,14 +113,33 @@ const Index: FC = () =>
         </div>
     );
 
-    const ownerOptions = useMemo<DefaultOptionType[]>(
-        () =>
-            owners.map((item) => ({
-                label: item.name,
-                value: item.id,
-            })),
-        [ owners ],
-    );
+    const disabledDate = (current) =>
+    {
+
+        let today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return current && current.valueOf() < today.getTime();
+    };
+
+    const addDemands: boolean = async (values) =>
+    {
+        try {
+            const response = await addDemandsUsingPOST({
+                ...values
+            })
+            if (response.code === 0)
+            {
+                message.success('添加成功')
+                return true
+            }
+        }
+        catch (e:any)
+        {
+            message.error(e.message)
+            return false
+        }
+    }
+
 
     return (
         <>
@@ -200,52 +160,12 @@ const Index: FC = () =>
                                 {/*  </TagSelect.Option>*/}
                                 {/*))}*/}
                             </TagSelect>
+
                         </FormItem>
+
                     </StandardFormRow>
-                    <StandardFormRow title="owner" grid>
-                        <FormItem name="owner" noStyle>
-                            <Select
-                                mode="multiple"
-                                placeholder="选择 owner"
-                                style={{ minWidth: '6rem' }}
-                                options={ownerOptions}
-                            />
-                        </FormItem>
-                        <a className={styles.selfTrigger} onClick={setOwner}>
-                            只看自己的
-                        </a>
-                    </StandardFormRow>
-                    <StandardFormRow title="其它选项" grid last>
-                        <Row gutter={16}>
-                            <Col xl={8} lg={10} md={12} sm={24} xs={24}>
-                                <FormItem {...formItemLayout} label="活跃用户" name="user">
-                                    <Select
-                                        placeholder="不限"
-                                        style={{ maxWidth: 200, width: '100%' }}
-                                        options={[
-                                            {
-                                                label: '李三',
-                                                value: 'lisa',
-                                            },
-                                        ]}
-                                    />
-                                </FormItem>
-                            </Col>
-                            <Col xl={8} lg={10} md={12} sm={24} xs={24}>
-                                <FormItem {...formItemLayout} label="好评度" name="rate">
-                                    <Select
-                                        placeholder="不限"
-                                        style={{ maxWidth: 200, width: '100%' }}
-                                        options={[
-                                            {
-                                                label: '优秀',
-                                                value: 'good',
-                                            },
-                                        ]}
-                                    />
-                                </FormItem>
-                            </Col>
-                        </Row>
+                    <StandardFormRow title="操作" block style={{ paddingBottom: 11 }}>
+                        <Button onClick={()=>setCreateModal(true)}>发布新需求</Button>
                     </StandardFormRow>
                 </Form>
             </Card>
@@ -291,6 +211,56 @@ const Index: FC = () =>
                     )}
                 />
             </Card>
+
+            <ModalForm
+                open={createModal}
+                onOpenChange={setCreateModal}
+                title={'发布需求信息'}
+                onFinish={addDemands}
+            >
+                <ProFormText
+                    name="title"
+                    label="需求标题"
+                    rules={[{ required: true, message: '请输入需求标题' },
+                        { max: 64, message: '标题不能超过64个字符' }]}
+                />
+                <ProFormText
+                    name="description"
+                    label="需求描述"
+                    rules={[
+                        { required: true, message: '请输入需求描述' },
+                        { max: 512, message: '描述不能超过512个字符' }
+                    ]}
+                />
+                <ProFormDigit
+                    name="reward"
+                    label="报酬"
+                    rules={[{ required: true, message: '请输入报酬' }]}
+                    min={0}
+                    fieldProps={{
+                        precision: 2, // 设置小数点后两位
+                        prefix: <DollarCircleOutlined />
+                    }}// 设置小数点后两位
+                />
+                <ProFormText.Password
+                    name="userPassword"
+                    label="支付密码"
+                    rules={[{ required: true, message: '请输入支付密码' }]}
+                    fieldProps={{
+                        prefix: <LockOutlined />
+                    }}
+                />
+                <ProFormDatePicker
+                    name="deadline"
+                    label="截止日期"
+                    fieldProps={{
+                        prefix: <CalendarOutlined />
+                    }}
+                    disabledDate={disabledDate}
+                    rules={[{ required: true, message: '请选择截止日期' }]}
+                    initialValue={Date.now()} // 默认值为当前日期
+                />
+            </ModalForm>
         </>
     );
 };

@@ -4,25 +4,34 @@ import { request } from '@umijs/max';
 
 /** 添加信息 添加信息接口 POST /api/competition/Competition/add */
 export async function addMatchInfoUsingPOST(
-    body: {
-      /** 业务数据 */
-      data: string;
-    },
-    file?: File,
-    options?: { [key: string]: any },
+  body: {
+    /** 业务数据 */
+    data: string;
+  },
+  file?: File,
+  options?: { [key: string]: any },
 ) {
   const formData = new FormData();
 
   if (file) {
     formData.append('file', file);
   }
-  const json = JSON.stringify(body.data);
-  // 将 json 字符串转化为 Blob 对象
-  const blob = new Blob([json], {
-    type: 'application/json',
-  });
-  formData.append("data", blob)
 
+  Object.keys(body).forEach((ele) => {
+    const item = (body as any)[ele];
+
+    if (item !== undefined && item !== null) {
+      if (typeof item === 'object' && !(item instanceof File)) {
+        if (item instanceof Array) {
+          item.forEach((f) => formData.append(ele, f || ''));
+        } else {
+          formData.append(ele, JSON.stringify(item));
+        }
+      } else {
+        formData.append(ele, item);
+      }
+    }
+  });
 
   return request<API.BaseResponseString_>('/api/competition/Competition/add', {
     method: 'POST',
@@ -58,7 +67,7 @@ export async function getMyCreateRaceByRequestUsingGET(options?: { [key: string]
 /** getMatchInfo GET /api/competition/Competition/get/profile */
 export async function getMatchInfoUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getMatchInfoUsingGET1Params,
+  params: API.getMatchInfoUsingGETParams,
   options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseMatchInfoProfileVO_>('/api/competition/Competition/get/profile', {

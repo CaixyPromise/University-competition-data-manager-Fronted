@@ -1,6 +1,14 @@
-import {ApartmentOutlined, ClusterOutlined, ContactsOutlined, PlusOutlined} from '@ant-design/icons';
+import {
+    ApartmentOutlined,
+    CheckOutlined,
+    ClusterOutlined,
+    ContactsOutlined,
+    DollarOutlined,
+    EditOutlined,
+    PlusOutlined
+} from '@ant-design/icons';
 import {GridContent} from '@ant-design/pro-components';
-import {Card, Col, Divider, Input, InputRef, message, Row, Tag} from 'antd';
+import {Button, Card, Col, Divider, Input, InputNumber, InputRef, message, Row, Tag} from 'antd';
 import React, {useEffect, useRef, useState} from 'react';
 import useStyles from './Center.style';
 import type {TagType} from './data.d';
@@ -12,6 +20,7 @@ import TeamList from "@/pages/account/center/components/TeamList";
 import MyCreateRaceContainer from "@/pages/account/center/components/MyCreateRaceContainer";
 import Articles from "@/pages/account/center/components/Articles";
 import MyDemandContainer from "@/pages/account/center/components/MyDemandContainer";
+import {updateWalletUsingGET} from "@/services/matchService/userController";
 
 
 const operationTabList = ({ canAdmin, isTeacher }:
@@ -125,13 +134,35 @@ const TagList: React.FC<{
 const Center: React.FC = () =>
 {
     const { styles } = useStyles();
-    const [activeTabKey, setActiveTabKey] = useState('message');
+    const [ activeTabKey, setActiveTabKey ] = useState('message');
 
     const [ data, setData ] = useState<API.AboutMeVO>({});
     const [ loading, setLoading ] = useState<boolean>(false);
     const { initialState } = useModel('@@initialState');
     const { userRole }: API.LoginUserVO = initialState.currentUser;
     const tabList = operationTabList({ canAdmin: userRole === 'admin', isTeacher: userRole === 'teacher' });
+    const [ isEditing, setIsEditing ] = useState(false);
+    const [ balance, setBalance ] = useState();
+
+    const handleEditClick = () =>
+    {
+        setIsEditing(true);
+    };
+
+    const handleSubmitClick = async () =>
+    {
+        setIsEditing(false);
+        try {
+            const response = await updateWalletUsingGET({add: balance});
+            if (response.code === 0) {
+                message.success('修改成功')
+            }
+        }
+        catch (e: any)
+        {
+            message.error(e.message)
+        }
+    };
     const fetchData = async () =>
     {
         setLoading(true);
@@ -141,6 +172,7 @@ const Center: React.FC = () =>
             if (response.code === 0 && response.data)
             {
                 setData(response.data);
+                setBalance(response.data.balance)
             }
             else
             {
@@ -161,14 +193,9 @@ const Center: React.FC = () =>
         fetchData()
     }, []);
 
-    //  获取用户信息
-    // const { data: currentUser, loading } = useRequest(() =>
-    // {
-    //     return queryCurrent();
-    // });
 
     //  渲染用户信息
-    const renderUserInfo = ({ userEmail, userSex, userDepartment, userMajor }: Partial<API.AboutMeVO>) =>
+    const renderUserInfo = ({ userEmail, userSex, userDepartment, userMajor, balance }: Partial<API.AboutMeVO>) =>
     {
         return (
             <div className={styles.detail}>
@@ -196,6 +223,35 @@ const Center: React.FC = () =>
                     />
                     {`${userDepartment}-${userMajor}`}
                 </p>
+                <p>
+                    <DollarOutlined style={{ marginRight: 8 }}/>
+                    {`余额：`}
+                    {isEditing ? (
+                        <span>
+                        <InputNumber
+                            min={0}
+                            value={balance}
+                            onChange={setBalance}
+                            style={{ marginRight: 8 }}
+                        />
+                        <Button
+                            icon={<CheckOutlined/>}
+                            onClick={handleSubmitClick}
+                            size="small"
+                        />
+                    </span>
+                    ) : (
+                        <span>
+                        {`${balance} ￥`}
+                            <Button
+                                icon={<EditOutlined/>}
+                                onClick={handleEditClick}
+                                size="small"
+                                style={{ marginLeft: 8 }}
+                            />
+                    </span>
+                    )}
+                </p>
             </div>
         );
     };
@@ -206,37 +262,37 @@ const Center: React.FC = () =>
         console.log(tabValue)
         if (tabValue === "message")
         {
-            return <Articles />
+            return <Articles/>
         }
 
         else if (tabValue === 'my-join')
         {
-            return  <TeamList
+            return <TeamList
                 fetchDataFunction={() => listMyJoinTeamsUsingGET({ userRole: 1 })}
                 description={"暂无加入团队信息"}
             />;
         }
         else if (tabValue === 'my-team')
         {
-            return  <TeamList
-                        fetchDataFunction={listMyCreateTeamsUsingGET}
-                        description={"暂无创建团队信息"}
+            return <TeamList
+                fetchDataFunction={listMyCreateTeamsUsingGET}
+                description={"暂无创建团队信息"}
             />;
         }
         else if (tabValue === "my-apply")
         {
             return <TeamList
-                fetchDataFunction={() =>listMyJoinTeamsUsingGET({ userRole: -1 })}
+                fetchDataFunction={() => listMyJoinTeamsUsingGET({ userRole: -1 })}
                 description={"暂无申请加入团队信息"}
             />
         }
         else if (tabValue === "my-create")
         {
-            return <MyCreateRaceContainer />
+            return <MyCreateRaceContainer/>
         }
         else if (tabValue === "my-demand")
         {
-            return <MyDemandContainer />
+            return <MyDemandContainer/>
         }
         return null;
     };
@@ -286,20 +342,7 @@ const Center: React.FC = () =>
                                     }}
                                     dashed
                                 />
-                                {/*<div className={styles.team}>*/}
-                                {/*    <div className={styles.teamTitle}>团队</div>*/}
-                                {/*    <Row gutter={36}>*/}
-                                {/*        {currentUser.notice &&*/}
-                                {/*            currentUser.notice.map((item) => (*/}
-                                {/*                <Col key={item.id} lg={24} xl={12}>*/}
-                                {/*                    <a href={item.href}>*/}
-                                {/*                        <Avatar size="small" src={item.logo}/>*/}
-                                {/*                        {item.member}*/}
-                                {/*                    </a>*/}
-                                {/*                </Col>*/}
-                                {/*            ))}*/}
-                                {/*    </Row>*/}
-                                {/*</div>*/}
+
                             </div>
                         )}
                     </Card>
@@ -310,7 +353,8 @@ const Center: React.FC = () =>
                         bordered={false}
                         tabList={tabList}
                         activeTabKey={activeTabKey}
-                        onTabChange={(_tabKey) => {
+                        onTabChange={(_tabKey) =>
+                        {
                             setActiveTabKey(_tabKey);
                         }}
                     >

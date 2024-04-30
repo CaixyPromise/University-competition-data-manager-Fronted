@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Empty, List, message, Spin, Tooltip} from 'antd';
+import {Card, Empty, List, message, Popconfirm, Spin, Tooltip} from 'antd';
 import {DeleteOutlined, EyeOutlined, TrophyTwoTone} from '@ant-design/icons';
 import useStyles from './index.style';
+import {deleteTeamUsingPOST} from "@/services/teamService/teamController";
+import {history} from "@umijs/max";
 
 // 通用的 TeamList 组件
 const TeamList = ({ fetchDataFunction, description }) =>
@@ -9,7 +11,7 @@ const TeamList = ({ fetchDataFunction, description }) =>
     const { styles } = useStyles();
     const [ itemData, setItemData ] = useState([]);
     const [ loading, setLoading ] = useState(false);
-
+    const [ popConfirm, setPopConfirm ] = useState<boolean>(false)
     const fetchData = async () =>
     {
         setLoading(true);
@@ -64,6 +66,22 @@ const TeamList = ({ fetchDataFunction, description }) =>
         </div>
     );
 
+    const handleDelete = async (id) =>
+    {
+        try
+        {
+            const response = await deleteTeamUsingPOST({id:id});
+            if (response.code === 0)
+            {
+                message.success("删除成功")
+            }
+        }
+        catch (e: any)
+        {
+            message.error(e.message);
+        }
+    }
+
     return (
         loading ? <Spin tip="Loading..." size="large" style={{
                 display: 'flex',
@@ -82,8 +100,18 @@ const TeamList = ({ fetchDataFunction, description }) =>
                                 hoverable
                                 bodyStyle={{ paddingBottom: 20 }}
                                 actions={[
-                                    <Tooltip key="view" title="查看"><EyeOutlined/></Tooltip>,
-                                    <Tooltip key="delete" title="删除"><DeleteOutlined/></Tooltip>,
+                                    <Tooltip key="view" title="查看">
+                                        <EyeOutlined onClick={() => history.push(`/team/profile/${item.teamId}`)} />
+                                    </Tooltip>,
+                                    <Popconfirm
+                                        title="确定要删除吗?"
+                                        onConfirm={() => handleDelete(item.teamId)}
+                                        key="delete"
+                                    >
+                                        <Tooltip title={`删除团队-${item.teamName}`}>
+                                            <DeleteOutlined />
+                                        </Tooltip>
+                                    </Popconfirm>,
                                 ]}
                             >
                                 <Card.Meta avatar={<TrophyTwoTone/>} title={item.raceName}/>

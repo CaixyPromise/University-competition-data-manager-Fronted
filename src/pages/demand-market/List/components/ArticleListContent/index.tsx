@@ -22,8 +22,8 @@ const ListContent: React.FC<ArticleListContentProps> = ({
       <div className={styles.description}>{content}</div>
       <div className={styles.extra}>
         {/*<Avatar src={avatar} size="small" />*/}
-        发布时间：<span style={{marginRight: "10px"}}>{dayjs(createAt).format('YYYY-MM-DD HH:mm')}</span>
-        结束时间：<span >{dayjs(deadline).format('YYYY-MM-DD HH:mm')}</span>
+        发布时间：<span style={{marginRight: "10px", color: "green"}}>{dayjs(createAt).format('YYYY-MM-DD HH:mm')}</span>
+        结束时间：<span style={{color: "red"}}>{dayjs(deadline).format('YYYY-MM-DD HH:mm')}</span>
       </div>
     </div>
   );

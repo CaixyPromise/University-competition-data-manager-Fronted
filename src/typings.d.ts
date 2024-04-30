@@ -23,7 +23,7 @@ interface ColumnsFunctionProps
 {
     setCurrentRow: (currentRow: any) => void
     setUpdateModalVisible: (visible: boolean) => void
-    handleDelete: (record: any) => void
+    handleFunction: (record: any) => void
 }
 interface InitialState
 {

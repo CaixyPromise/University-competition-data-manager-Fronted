@@ -43,7 +43,7 @@ export async function getAllDepartmentAndMajorUsingGET(options?: { [key: string]
 /** getMajorInfoVOById GET /api/user/major/get/vo */
 export async function getMajorInfoVoByIdUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getMajorInfoVOByIdUsingGET1Params,
+  params: API.getMajorInfoVOByIdUsingGETParams,
   options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseMajorInfoVO_>('/api/user/major/get/vo', {

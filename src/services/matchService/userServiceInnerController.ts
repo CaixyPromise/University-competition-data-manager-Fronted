@@ -5,7 +5,7 @@ import { request } from '@umijs/max';
 /** getByAccount GET /api/competition/inner/get/account */
 export async function getByAccountUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getByAccountUsingGET1Params,
+  params: API.getByAccountUsingGETParams,
   options?: { [key: string]: any },
 ) {
   return request<API.User>('/api/competition/inner/get/account', {
@@ -29,10 +29,25 @@ export async function listUserByAccountUsingGET(body: string[], options?: { [key
   });
 }
 
+/** getBothUserWallet POST /api/competition/inner/get/both/wallet */
+export async function getBothUserWalletUsingPOST(
+  body: number[],
+  options?: { [key: string]: any },
+) {
+  return request<Record<string, any>>('/api/competition/inner/get/both/wallet', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** getById GET /api/competition/inner/get/id */
 export async function getByIdUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getByIdUsingGET1Params,
+  params: API.getByIdUsingGETParams,
   options?: { [key: string]: any },
 ) {
   return request<API.User>('/api/competition/inner/get/id', {
@@ -47,7 +62,7 @@ export async function getByIdUsingGET(
 /** getUserWorkVO GET /api/competition/inner/get/id/workVO */
 export async function getUserWorkVoUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getUserWorkVOUsingGET1Params,
+  params: API.getUserWorkVOUsingGETParams,
   options?: { [key: string]: any },
 ) {
   return request<API.UserWorkVO>('/api/competition/inner/get/id/workVO', {
@@ -62,7 +77,7 @@ export async function getUserWorkVoUsingGET(
 /** listByIds GET /api/competition/inner/get/ids */
 export async function listByIdsUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.listByIdsUsingGET1Params,
+  params: API.listByIdsUsingGETParams,
   options?: { [key: string]: any },
 ) {
   return request<API.User[]>('/api/competition/inner/get/ids', {
@@ -80,6 +95,46 @@ export async function getUserWorksByIdsUsingPOST(
   options?: { [key: string]: any },
 ) {
   return request<API.UserWorkVO[]>('/api/competition/inner/get/ids/workVO', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** getUserWallet GET /api/competition/inner/get/wallet */
+export async function getUserWalletUsingGET(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getUserWalletUsingGETParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.UserWallet>('/api/competition/inner/get/wallet', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
+/** getDepartmentInfoByIdsAndUpdateCache POST /api/competition/inner/update/departemtCache */
+export async function getDepartmentInfoByIdsAndUpdateCacheUsingPOST(options?: {
+  [key: string]: any;
+}) {
+  return request<any>('/api/competition/inner/update/departemtCache', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
+/** updateUserWallet POST /api/competition/inner/update/wallet */
+export async function updateUserWalletUsingPOST(
+  body: API.UserWallet,
+  options?: { [key: string]: any },
+) {
+  return request<boolean>('/api/competition/inner/update/wallet', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

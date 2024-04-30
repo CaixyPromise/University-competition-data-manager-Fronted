@@ -48,11 +48,6 @@ const useStyles = createStyles(({ token }) => {
     };
 });
 
-interface ReplyCommentDict
-{
-    [parentId: string]: API.CommentVO
-}
-
 const Index: React.FC<ConversationContainerProp> = ({id}) =>
 {
     const { styles } = useStyles();
@@ -228,10 +223,9 @@ const Index: React.FC<ConversationContainerProp> = ({id}) =>
                                     }
                                 />
                                 <ListContent data={{ content: item.content, createAt: item.createTime }}/>
-                                <div style={{marginTop: "10px"}}>
-                                    <span>查看回复</span>
-
-                                </div>
+                                {/*<div style={{marginTop: "10px"}}>*/}
+                                {/*    <span>查看回复</span>*/}
+                                {/*</div>*/}
                             </List.Item>
                         )
                     }}

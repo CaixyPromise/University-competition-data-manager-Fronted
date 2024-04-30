@@ -7,7 +7,7 @@ import {Button, Space, Typography} from "antd";
 export const DepartmentColumns = ({
     setCurrentRow,
     setUpdateModalVisible,
-    handleDelete
+    handleFunction
 }: ColumnsFunctionProps): ProColumns[] => [
     {
         title: '学院id',
@@ -36,7 +36,7 @@ export const DepartmentColumns = ({
                 >
                     修改
                 </Typography.Link>
-                <Typography.Link type="danger" onClick={() => handleDelete(record)}>
+                <Typography.Link type="danger" onClick={() => handleFunction(record)}>
                     删除
                 </Typography.Link>
             </Space>
@@ -47,7 +47,7 @@ export const DepartmentColumns = ({
 export const subMajorColumns = ({
     setCurrentRow,
     setUpdateModalVisible,
-    handleDelete
+    handleFunction
 }: ColumnsFunctionProps): ProColumns[] => [
     {
         title: "专业id",
@@ -76,7 +76,7 @@ export const subMajorColumns = ({
                 >
                     修改
                 </Typography.Link>
-                <Typography.Link type="danger" onClick={() => handleDelete(record)}>
+                <Typography.Link type="danger" onClick={() => handleFunction(record)}>
                     删除
                 </Typography.Link>
             </Space>

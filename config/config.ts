@@ -73,7 +73,7 @@ export default defineConfig({
    * @name layout 插件
    * @doc https://umijs.org/docs/max/layout-menu
    */
-  title: 'Ant Design Pro',
+  title: '数据分析平台',
   layout: {
     locale: true,
     ...defaultSettings,
@@ -157,8 +157,8 @@ export default defineConfig({
     // }
     {
       requestLibPath: "import { request } from '@umijs/max'",
-      schemaPath: 'http://localhost:8101/api/market/v2/api-docs',
-      projectName: 'marketService',
+      schemaPath: 'http://localhost:8101/api/user/v2/api-docs',
+      projectName: 'userService',
     },
   ],
   mfsu: {

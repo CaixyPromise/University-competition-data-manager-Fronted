@@ -154,6 +154,7 @@ const Index:React.FC<DetailPageProps> = ({id, data}) =>
             <Table
                 columns={groupDetailsColumns}
                 dataSource={data.groupData}
+                key={"id"}
                 expandable={(record: any) => expandedRowRender(record)}
             />
         </Card>

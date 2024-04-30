@@ -17,6 +17,21 @@ export async function addUserUsingPOST(
   });
 }
 
+/** updateWallet GET /api/user/add/wallet */
+export async function updateWalletUsingGET(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.updateWalletUsingGETParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseBoolean_>('/api/user/add/wallet', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 /** deleteUser POST /api/user/delete */
 export async function deleteUserUsingPOST(
   body: API.DeleteRequest,
@@ -35,7 +50,7 @@ export async function deleteUserUsingPOST(
 /** getUserById GET /api/user/get */
 export async function getUserByIdUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getUserByIdUsingGET1Params,
+  params: API.getUserByIdUsingGETParams,
   options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseUser_>('/api/user/get', {
@@ -66,7 +81,7 @@ export async function getMeByRequestUsingGET(options?: { [key: string]: any }) {
 /** getUserVOById GET /api/user/get/vo */
 export async function getUserVoByIdUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getUserVOByIdUsingGET1Params,
+  params: API.getUserVOByIdUsingGETParams,
   options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseUserVO_>('/api/user/get/vo', {
